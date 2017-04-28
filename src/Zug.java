@@ -8,13 +8,22 @@ import java.util.Arrays;
 public class Zug {
     private int waggons;
     private int anzahl_sitze;
-    private int[] sitz = new int[this.waggons];
+    private int[] sitz;
     private int fahrt_dauer; //in sekunden
+    private Warteschlange warteschlange;
 
-    public Zug(int waggons, int anzahl_sitze, int fahrt_dauer) {
+
+    public Zug(int waggons, int anzahl_sitze, int fahrt_dauer, Warteschlange warteschlange) {
         this.waggons = waggons;
         this.anzahl_sitze = anzahl_sitze;
         this.fahrt_dauer = fahrt_dauer;
+        this.sitz = new int[waggons];
+        this.warteschlange = warteschlange;
+
+        for (int i = 0; i < sitz.length ; i++) {
+            sitz[i] = anzahl_sitze;
+
+        }
     }
 
     public int getWaggons() {
@@ -40,6 +49,13 @@ public class Zug {
     public void setSitz(int[] sitz) {
         this.sitz = sitz;
     }
+
+    public void fillTrain(){
+
+
+
+    }
+
 
     @Override
     public String toString() {

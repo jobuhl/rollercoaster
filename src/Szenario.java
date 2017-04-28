@@ -16,39 +16,26 @@ public class Szenario {
     public static void main(String[] args) {
 
 
-        Zug zug1 = new Zug(10,3, 300); // Zug mit 10 Wagons, 3er-Sitz, 300sec Fahrtdauer
-        Warteschlange warteschlange = new Warteschlange();
+
         PersonenGruppe[] gruppen = new PersonenGruppe[50]; // Anzahl Gruppen = 50
-
-
         for(int i = 0; i <= gruppen.length-1; i++) {
             int ran = r.nextInt(max-min) +min;
             gruppen[i] = new PersonenGruppe(ran);
 
         }
 
+        Warteschlange warteschlange = new Warteschlange();
         for(int i = 0; i <= gruppen.length-1; i++) {
             warteschlange.addPersons(gruppen[i]);
         }
 
-
+        Zug zug1 = new Zug(10,3, 300, warteschlange); // Zug mit 10 Wagons, 3er-Sitz, 300sec Fahrtdauer
 
         System.out.println(zug1);
-        System.out.println(Arrays.toString(gruppen));
-        System.out.println("##############");
-        System.out.println("Länge Warteschlange = " +warteschlange.getWartelaenge());
-
-        System.out.println("#################");
-        System.out.println("Warteschlange Belegung");
-        System.out.println(warteschlange.toString());
-
-        for(int i = 0; i <= 3; i++) {
-            warteschlange.removePersons(gruppen[i]);
-        }
+//        System.out.println(Arrays.toString(gruppen));
 
         System.out.println("Länge Warteschlange = " +warteschlange.getWartelaenge());
 
-        System.out.println("#################");
         System.out.println("Warteschlange Belegung");
         System.out.println(warteschlange.toString());
 
