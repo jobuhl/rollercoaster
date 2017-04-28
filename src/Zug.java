@@ -12,7 +12,7 @@ public class Zug {
     private int fahrt_dauer; //in sekunden
     private Warteschlange warteschlange;
 
-
+//
     public Zug(int waggons, int anzahl_sitze, int fahrt_dauer, Warteschlange warteschlange) {
         this.waggons = waggons;
         this.anzahl_sitze = anzahl_sitze;
