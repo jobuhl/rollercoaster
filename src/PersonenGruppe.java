@@ -19,8 +19,6 @@ public class PersonenGruppe {
 
     @Override
     public String toString() {
-        return "PersonenGruppe{" +
-                "Gruppengröße=" + Gruppengröße +
-                '}';
+        return "{"+Gruppengröße+'}';
     }
 }

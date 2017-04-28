@@ -16,6 +16,16 @@ public class Warteschlange {
         wartelaenge += gruppen.getGruppengröße();
     }
 
+    // Gruppe erst löschen wenn alle Personen verteilt wurden
+    public void removePersons (PersonenGruppe gruppen) {
+        warteschlangen.remove(gruppen);
+        wartelaenge -= gruppen.getGruppengröße();
+    }
+
+    public int getWartelaenge() {
+        return wartelaenge;
+    }
+
     @Override
     public String toString() {
         return "Warteschlange{" +
@@ -23,12 +33,6 @@ public class Warteschlange {
                 '}';
     }
 
-    public void removePersons (PersonenGruppe gruppen) {
 
-    }
-
-    public int getWartelaenge() {
-        return wartelaenge;
-    }
 
 }
