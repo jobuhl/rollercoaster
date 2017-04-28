@@ -1,8 +1,11 @@
 /**
  * Created by Jojo on 28.04.17.
  */
-public class Zug {
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Zug {
     private int waggons;
     private int anzahl_sitze;
     private int[] sitz = new int[this.waggons];
@@ -36,5 +39,15 @@ public class Zug {
 
     public void setSitz(int[] sitz) {
         this.sitz = sitz;
+    }
+
+    @Override
+    public String toString() {
+        return "Zug{" +
+                "waggons=" + waggons +
+                ", anzahl_sitze=" + anzahl_sitze +
+                ", sitz=" + Arrays.toString(sitz) +
+                ", fahrt_dauer=" + fahrt_dauer +
+                '}';
     }
 }

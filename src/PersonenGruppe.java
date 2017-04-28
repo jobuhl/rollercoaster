@@ -1,11 +1,11 @@
 /**
  * Created by Jojo on 28.04.17.
  */
-public class Person {
+public class PersonenGruppe {
 
     private int Gruppengröße;
 
-    public Person(int gruppengröße) {
+    public PersonenGruppe(int gruppengröße) {
         Gruppengröße = gruppengröße;
     }
 
@@ -15,5 +15,12 @@ public class Person {
 
     public void setGruppengröße(int gruppengröße) {
         Gruppengröße = gruppengröße;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonenGruppe{" +
+                "Gruppengröße=" + Gruppengröße +
+                '}';
     }
 }
