@@ -52,12 +52,7 @@ public class Zug {
 
     public void fillTrain(){
 
-        if (warteschlange.)
-
-
-
     }
-
 
     @Override
     public String toString() {
