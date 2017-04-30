@@ -24,10 +24,17 @@ public class Szenario {
 
         }
 
+
         Warteschlange warteschlange = new Warteschlange();
         for(int i = 0; i <= gruppen.length-1; i++) {
             warteschlange.addPersons(gruppen[i]);
         }
+
+        System.out.println("Warteschlange Belegung");
+        System.out.println(warteschlange.toString());
+
+        warteschlange.getFirst();
+
 
         Zug zug1 = new Zug(10,3, 300, warteschlange); // Zug mit 10 Wagons, 3er-Sitz, 300sec Fahrtdauer
 
@@ -38,6 +45,9 @@ public class Szenario {
 
         System.out.println("Warteschlange Belegung");
         System.out.println(warteschlange.toString());
+
+        warteschlange.removePersons();
+        warteschlange.getTail();
 
     }
 }

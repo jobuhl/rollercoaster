@@ -3,22 +3,22 @@
  */
 public class PersonenGruppe {
 
-    private int Gruppengröße;
+    private int gruppengroeße;
 
-    public PersonenGruppe(int gruppengröße) {
-        Gruppengröße = gruppengröße;
+    public PersonenGruppe(int gruppengroeße) {
+        this.gruppengroeße = gruppengroeße;
     }
 
-    public int getGruppengröße() {
-        return Gruppengröße;
+    public int getGruppengroeße() {
+        return gruppengroeße;
     }
 
-    public void setGruppengröße(int gruppengröße) {
-        Gruppengröße = gruppengröße;
+    public void setGruppengroeße(int gruppengroeße) {
+        this.gruppengroeße = gruppengroeße;
     }
 
     @Override
     public String toString() {
-        return "{"+Gruppengröße+'}';
+        return "{"+gruppengroeße+'}';
     }
 }
