@@ -22,7 +22,7 @@ public class Zug {
     //Warteschlange für den Zug
     private MultiRiderSchlange warteschlange;
 
-    private String status = "free";
+    private String status = "green";
 
 
 
@@ -61,20 +61,28 @@ public class Zug {
         this.wagon = wagon;
     }
 
+    public int getAktiv() {
+        return aktiv;
+    }
+
+    public void setAktiv(int aktiv) {
+        this.aktiv = aktiv;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatusGreen() {
-        this.status = "Green";
+        this.status = "green";
     }
 
     public void setStatusYellow(){
-        this.status = "Yellow";
+        this.status = "yellow";
     }
 
     public void setStatusRed(){
-        this.status = "Red";
+        this.status = "red";
     }
 
 

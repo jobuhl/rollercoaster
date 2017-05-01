@@ -3,14 +3,46 @@
  */
 public class Einteiler {
 
+    private String status = "free";
+    private SingleRiderSchlange singleRiderSchlange;
+    private MultiRiderSchlange multiRiderSchlange;
+    private Zug zug;
 
-//    public void fillTrain() {
-//
-//        //keine Singlerider Schlange
-//        if (warteschlange.getWartelaenge() <= 100) {
-//
-//
-//            if (warteschlange.getFirst().getGruppengroeße() % wagon[aktiv] == 0 || warteschlange.getFirst().getGruppengroeße() % wagon[aktiv] == 2) {
+    public Einteiler(SingleRiderSchlange singleRiderSchlange, MultiRiderSchlange multiRiderSchlange, Zug zug) {
+        this.singleRiderSchlange = singleRiderSchlange;
+        this.multiRiderSchlange = multiRiderSchlange;
+        this.zug = zug;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatusFree() {
+        this.status = "free";
+    }
+
+    public void setStatusTaken() {
+        this.status = "taken";
+    }
+
+
+    public void fillTrain() {
+
+        //keine Singlerider Schlange
+        if (zug.getStatus().equals("green") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() <= 100) {
+
+            this.setStatusTaken();
+
+            if (multiRiderSchlange.getFirst().getGruppengroeße() % zug.getWagon()[0] == 0) {
+
+            }
+
+
+        }
+    }
+}
+//            if (multiRiderSchlange.getFirst().getGruppengroeße() % zug.wagon[aktiv] == 0 || warteschlange.getFirst().getGruppengroeße() % wagon[aktiv] == 2) {
 //
 //                fillTrainWithoutRest(warteschlange.getFirst());
 //
@@ -127,4 +159,4 @@ public class Einteiler {
 //
 //
 //    }
-}
+

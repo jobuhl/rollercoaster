@@ -39,12 +39,12 @@ public class Szenario {
 //        System.out.println(Arrays.toString(gruppen));
 
         System.out.println("Länge Warteschlange = " +multi.getWartelaenge());
-
-        System.out.println("Warteschlange Belegung");
-        System.out.println(multi.toString());
-
-        multi.removePersons();
-        multi.getTail();
+//
+//        System.out.println("Warteschlange Belegung");
+//        System.out.println(multi.toString());
+//
+//        multi.removePersons();
+//        multi.getTail();
 
     }
 }
