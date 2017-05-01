@@ -14,7 +14,7 @@ public class Zug {
     private int aktiv = 0;
 
     //Sitzplätze des Zugs
-    private int[] wagon;
+    private int[] takenSeats;
 
     //fahrt dauer des Zuges
     private int fahrt_dauer; //in sekunden
@@ -30,10 +30,10 @@ public class Zug {
         this.waggons = waggons;
         this.anzahl_sitze = anzahl_sitze;
         this.fahrt_dauer = fahrt_dauer;
-        this.wagon = new int[waggons];
+        this.takenSeats = new int[waggons];
 
-        for (int i = 0; i < wagon.length; i++) {
-            wagon[i] = anzahl_sitze;
+        for (int i = 0; i < takenSeats.length; i++) {
+            takenSeats[i] = anzahl_sitze;
         }
     }
 
@@ -53,36 +53,48 @@ public class Zug {
         this.anzahl_sitze = anzahl_sitze;
     }
 
-    public int[] getWagon() {
-        return wagon;
+    public int[] getTakenSeats() {
+        return takenSeats;
     }
 
-    public void setWagon(int[] wagon) {
-        this.wagon = wagon;
+    public void setTakenSeats(int value){
+        takenSeats[aktiv] = value;
     }
 
     public int getAktiv() {
         return aktiv;
     }
 
-    public void setAktiv(int aktiv) {
-        this.aktiv = aktiv;
+    public void setAktiv() {
+        aktiv++;
     }
 
     public String getStatus() {
         return status;
     }
 
+    //Auflade bereit
     public void setStatusGreen() {
         this.status = "green";
     }
 
+    //Abfahrbereit
     public void setStatusYellow(){
         this.status = "yellow";
     }
 
+    //fährt oder (eventuell) beschädigt
     public void setStatusRed(){
         this.status = "red";
+    }
+
+    public int getRestFreeSeats(){
+
+        int counter = 0;
+        for (int i = aktiv; i < takenSeats.length; i++) {
+            counter = counter + takenSeats[aktiv];
+        }
+        return counter;
     }
 
 
@@ -91,7 +103,7 @@ public class Zug {
         return "Zug{" +
                 "waggons=" + waggons +
                 ", anzahl_sitze=" + anzahl_sitze +
-                ", wagon=" + Arrays.toString(wagon) +
+                ", takenSeats=" + Arrays.toString(takenSeats) +
                 ", fahrt_dauer=" + fahrt_dauer +
                 ", status=" + status +
                 '}';

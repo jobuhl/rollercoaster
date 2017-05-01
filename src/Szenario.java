@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -36,6 +35,7 @@ public class Szenario {
 
         Zug zug1 = new Zug(10,3, 300); // Zug mit 10 Wagons, 3er-, 300sec Fahrtdauer
         System.out.println(zug1);
+        System.out.println(" test " + zug1.getTakenSeats()[zug1.getAktiv()]);
 //        System.out.println(Arrays.toString(gruppen));
 
         System.out.println("Länge Warteschlange = " +multi.getWartelaenge());
