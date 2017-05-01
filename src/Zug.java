@@ -20,18 +20,20 @@ public class Zug {
     private int fahrt_dauer; //in sekunden
 
     //Warteschlange für den Zug
-    private Warteschlange warteschlange;
+    private MultiRiderSchlange warteschlange;
 
-    public Zug(int waggons, int anzahl_sitze, int fahrt_dauer, Warteschlange warteschlange) {
+    private String status = "free";
+
+
+
+    public Zug(int waggons, int anzahl_sitze, int fahrt_dauer) {
         this.waggons = waggons;
         this.anzahl_sitze = anzahl_sitze;
         this.fahrt_dauer = fahrt_dauer;
         this.wagon = new int[waggons];
-        this.warteschlange = warteschlange;
 
         for (int i = 0; i < wagon.length; i++) {
             wagon[i] = anzahl_sitze;
-
         }
     }
 
@@ -59,102 +61,20 @@ public class Zug {
         this.wagon = wagon;
     }
 
-
-    public void fillTrain() {
-
-        //keine Singlerider Schlange
-        if (warteschlange.getWartelaenge() <= 100) {
-
-
-            if (warteschlange.getFirst().getGruppengroeße() % wagon[aktiv] == 0 || warteschlange.getFirst().getGruppengroeße() % wagon[aktiv] == 2) {
-
-                fillTrainWithoutRest(warteschlange.getFirst());
-
-            }
-            if (warteschlange.getFirst().getGruppengroeße() % wagon[aktiv] != 0 || warteschlange.getFirst().getGruppengroeße() % wagon[aktiv] != 2) {
-
-                fillTrainWithoutRestMod(warteschlange.getFirst());
-            }
-            // Singlerider Schlange
-        } else if (warteschlange.getWartelaenge() > 100) {
-            fillTrainWithRest(warteschlange.getFirst());
-
-        }
-
-
+    public String getStatus() {
+        return status;
     }
 
-    //methode die bis zu 100 Menschen in der Warteschlange den Zugfüllt bei mod 0 und 2
-    public void fillTrainWithoutRest(PersonenGruppe personenGruppe) {
-
-
-        if (aktiv < waggons) {
-
-            //Die Gruppe passt in einen Wagon
-            if (personenGruppe.getGruppengroeße() <= wagon[aktiv]) {
-
-                wagon[aktiv] = wagon[aktiv] - personenGruppe.getGruppengroeße();
-                warteschlange.removePersons();
-                fillTrain();
-
-
-            } else if (personenGruppe.getGruppengroeße() > wagon[aktiv]) {
-
-                if (wagon[aktiv] < 2) {
-                    aktiv++;
-                    fillTrainWithoutRest(personenGruppe);
-                } else {
-                    int differnez = personenGruppe.getGruppengroeße() - wagon[aktiv];
-                    personenGruppe.setGruppengroeße(differnez);
-                    wagon[aktiv] = 0;
-                    aktiv++;
-                    fillTrainWithoutRest(personenGruppe);
-                }
-            }
-
-        } else if (aktiv == waggons) {
-            if (personenGruppe.getGruppengroeße() <= wagon[aktiv]) {
-                wagon[aktiv] = wagon[aktiv] - personenGruppe.getGruppengroeße();
-                warteschlange.removePersons();
-            } else {
-
-                //Zug fährt zu
-
-            }
-        }
+    public void setStatusGreen() {
+        this.status = "Green";
     }
 
-    //methode die bis zu 100 Menschen in der Warteschlange den Zugfüllt bei mod = 1 (SingleRider oder Gruppenaufspaltung)
-    public void fillTrainWithoutRestMod(PersonenGruppe personenGruppe) {
-
-        if (personenGruppe.getGruppengroeße() % wagon[aktiv] == 0 && personenGruppe.getGruppengroeße() > wagon[aktiv] && aktiv != waggons ) {
-            personenGruppe.setGruppengroeße(personenGruppe.getGruppengroeße() - aktiv);
-            wagon[aktiv] = 0;
-            aktiv++;
-            fillTrain();
-
-        }
-
-        else if(personenGruppe.getGruppengroeße() % wagon[aktiv] == 1 && personenGruppe.getGruppengroeße() <= wagon[aktiv]) {
-            wagon[aktiv] = wagon[aktiv] - personenGruppe.getGruppengroeße();
-            warteschlange.removePersons();
-
-        }else if(personenGruppe.getGruppengroeße() % wagon[aktiv] == 1 && personenGruppe.getGruppengroeße() >= wagon[aktiv] && aktiv != waggons){
-
-            if (wagon[aktiv] == 1){
-                aktiv++;
-            }else if (wagon[aktiv] > 2){
-                if (personenGruppe.getGruppengroeße()-2 % anzahl_sitze != 1){
-                wagon[aktiv] = wagon[aktiv]-2;
-                aktiv ++;
-                }
-            }
-
-        }
+    public void setStatusYellow(){
+        this.status = "Yellow";
     }
 
-    public void fillTrainWithRest(PersonenGruppe personenGruppe) {
-
+    public void setStatusRed(){
+        this.status = "Red";
     }
 
 
@@ -165,6 +85,7 @@ public class Zug {
                 ", anzahl_sitze=" + anzahl_sitze +
                 ", wagon=" + Arrays.toString(wagon) +
                 ", fahrt_dauer=" + fahrt_dauer +
+                ", status=" + status +
                 '}';
     }
 }

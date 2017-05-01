@@ -21,33 +21,30 @@ public class Szenario {
         for(int i = 0; i <= gruppen.length-1; i++) {
             int ran = r.nextInt(max-min) +min;
             gruppen[i] = new PersonenGruppe(ran);
-
         }
 
 
-        Warteschlange warteschlange = new Warteschlange();
+        MultiRiderSchlange multi = new MultiRiderSchlange();
         for(int i = 0; i <= gruppen.length-1; i++) {
-            warteschlange.addPersons(gruppen[i]);
+            multi.addPersons(gruppen[i]);
         }
 
-        System.out.println("Warteschlange Belegung");
-        System.out.println(warteschlange.toString());
+        System.out.println(multi.toString());
 
-        warteschlange.getFirst();
+//        System.out.println(multi.getFirst());
 
 
-        Zug zug1 = new Zug(10,3, 300, warteschlange); // Zug mit 10 Wagons, 3er-Sitz, 300sec Fahrtdauer
-
+        Zug zug1 = new Zug(10,3, 300); // Zug mit 10 Wagons, 3er-, 300sec Fahrtdauer
         System.out.println(zug1);
 //        System.out.println(Arrays.toString(gruppen));
 
-        System.out.println("Länge Warteschlange = " +warteschlange.getWartelaenge());
+        System.out.println("Länge Warteschlange = " +multi.getWartelaenge());
 
         System.out.println("Warteschlange Belegung");
-        System.out.println(warteschlange.toString());
+        System.out.println(multi.toString());
 
-        warteschlange.removePersons();
-        warteschlange.getTail();
+        multi.removePersons();
+        multi.getTail();
 
     }
 }
