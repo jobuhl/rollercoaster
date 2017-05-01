@@ -80,7 +80,6 @@ public class Einteiler2 {
                     }
                     else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getRestFreeSeats()) {
 
-                        if ()
 
 
                         multiRiderSchlange.getFirst().setGruppengroeße(multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]);
@@ -133,7 +132,6 @@ public class Einteiler2 {
                     }
                     else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getRestFreeSeats()) {
 
-                        if ()
 
 
                             multiRiderSchlange.getFirst().setGruppengroeße(multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]);
