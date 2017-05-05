@@ -1,5 +1,5 @@
 /**
- * Created by Jojo on 01.05.17.
+ * sCreated by Jojo on 01.05.17.
  */
 public class Einteiler {
 
