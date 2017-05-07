@@ -1,14 +1,18 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Jojo on 01.05.17.
  */
 public class MultiRiderSchlange {
 
-    private ArrayList<PersonenGruppe> warteschlange = new ArrayList<>();
+    private List<PersonenGruppe> warteschlange = Collections.synchronizedList(new ArrayList<>());
+
     private int wartelaenge = 0;
 
-    public ArrayList<PersonenGruppe> getWarteschlange() {
+    public List<PersonenGruppe> getWarteschlange() {
         return warteschlange;
     }
 

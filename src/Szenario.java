@@ -1,9 +1,9 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Created by Jojo on 28.04.17.
  */
-
 
 public class Szenario {
 
@@ -12,39 +12,54 @@ public class Szenario {
     public static final int min = 1;
     public static final int max = 6;
 
+    public static final MultiRiderSchlange multiRiderSchlange = new MultiRiderSchlange();
+    public static final SingleRiderSchlange singleRiderSchlange = new SingleRiderSchlange();
+    public static final Zug zug = new Zug(10, 3, 300);
+
+    public static final Einteiler einteiler1 = new Einteiler(singleRiderSchlange, multiRiderSchlange, zug);
+    public static final ArrayList<PersonenGruppe> featureEventList = new ArrayList();
+
+
     public static void main(String[] args) {
 
 
-
-        PersonenGruppe[] gruppen = new PersonenGruppe[50]; // Anzahl Gruppen = 50
-        for(int i = 0; i <= gruppen.length-1; i++) {
-            int ran = r.nextInt(max-min) +min;
-            gruppen[i] = new PersonenGruppe(ran);
+        for (int i = 0; i < 50; i++) {
+            int ran = r.nextInt(max - min) + min;
+            featureEventList.add(new PersonenGruppe(ran));
         }
 
 
-        MultiRiderSchlange multi = new MultiRiderSchlange();
-        for(int i = 0; i <= gruppen.length-1; i++) {
-            multi.addPersons(gruppen[i]);
-        }
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                    for (int i = 0; i < featureEventList.size(); i++) {
 
-        System.out.println(multi.toString());
+                        try {
+                            Thread.sleep((long)featureEventList.get(i).getAnkunftszeit());
+                            multiRiderSchlange.addPersons(featureEventList.get(i));
+                            System.out.println("hello");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
 
-//        System.out.println(multi.getFirst());
 
+                }
+            }
+        });
 
-        Zug zug1 = new Zug(10,3, 300); // Zug mit 10 Wagons, 3er-, 300sec Fahrtdauer
-        System.out.println(zug1);
-        System.out.println(" test " + zug1.getTakenSeats()[zug1.getAktiv()]);
-//      System.out.println(Arrays.toString(gruppen));
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        System.out.println("Länge Warteschlange = " +multi.getWartelaenge());
-//
-//        System.out.println("Warteschlange Belegung");
-//        System.out.println(multi.toString());
-//
-//        multi.removePersons();
-//        multi.getTail();
+                while (true){
+                    if (multiRiderSchlange.getWartelaenge() > 0)
+                    einteiler1.fillTrain();
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
 
     }
 }
