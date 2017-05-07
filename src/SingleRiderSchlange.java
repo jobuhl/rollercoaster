@@ -10,8 +10,6 @@ public class SingleRiderSchlange {
     private List<PersonenGruppe> warteschlange = Collections.synchronizedList(new ArrayList<>());
     private int wartelaenge = 0;
 
-
-
     public List<PersonenGruppe> getWarteschlange() {
         return warteschlange;
     }
@@ -47,11 +45,8 @@ public class SingleRiderSchlange {
     public PersonenGruppe getTail(){
 
         PersonenGruppe tail = this.warteschlange.get(warteschlange.size()-1);
-
         System.out.println(tail);
-
         return tail;
-
     }
 
     @Override
@@ -60,6 +55,4 @@ public class SingleRiderSchlange {
                 "warteschlangen=" + warteschlange +
                 '}';
     }
-
-
 }
