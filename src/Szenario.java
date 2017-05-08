@@ -11,7 +11,9 @@ public class Szenario {
     /* Für die Random Gruppengröße Erzeugung */
     public static Random r = new Random();
     public static final int min = 1;
+    public static final int max_single = 1;
     public static final int max = 6;
+    public static final int min_multi = 2;
 
     public static final MultiRiderSchlange multiRiderSchlange = new MultiRiderSchlange();
     public static final SingleRiderSchlange singleRiderSchlange = new SingleRiderSchlange();
@@ -25,6 +27,7 @@ public class Szenario {
 
 
         for (int i = 0; i < 80; i++) {
+
             int ran = r.nextInt(max - min) + min;
   //          int ran = 3;
             featureEventList.add(new PersonenGruppe(ran));

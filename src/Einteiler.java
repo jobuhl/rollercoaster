@@ -28,9 +28,6 @@ public class Einteiler {
         this.status = "taken";
     }
 
-
-
-
     public void fillTrain() {
 
         if (multiRiderSchlange.isEmpty() == false) {
@@ -171,9 +168,6 @@ public class Einteiler {
         fillTrain();
     }
 
-    // hier passt die Änderung der Gruppengröße nicht. Erst wird TakenSeats auf 0 gesetz
-    // danach wird die Gruppengröße (gruppengröße - 0) gemacht, daher ändert sich die 5er Gruppengröße nie....
-    // trick 17 - einfach erst die Gruppengröße ändern und danach setTakenSeats auf 0 :) Jetzt passt es ^^
     private void restGroupDeploy() {
         multiRiderSchlange.getFirst().setGruppengroeße(multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]);
         zug.setTakenSeats(0);
