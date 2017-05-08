@@ -91,7 +91,7 @@ public class Zug {
     public int getRestFreeSeats(){
 
         int counter = 0;
-        for (int i = 0; i < takenSeats.length; i++) {
+        for (int i = aktiv; i < takenSeats.length; i++) {
             counter = counter + takenSeats[i];
         }
         return counter;

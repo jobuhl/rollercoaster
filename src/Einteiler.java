@@ -32,25 +32,24 @@ public class Einteiler {
     public void fillTrain() {
 
         if (multiRiderSchlange.isEmpty() == false) {
-            if (zug.getStatus().equals("green") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() <= 100) {
-                System.out.println("Unter 100");
-                System.out.println(multiRiderSchlange);
-                this.setStatusTaken();
-                fillBelowHundretOne();
-            }
 
-            else if (zug.getStatus().equals("green") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() >= 100) {
-                System.out.println("Über 100");
-                this.setStatusTaken();
-                fillOverHundert();
-            } else {
+            if (zug.getAktiv() <= zug.getWaggons()) {
+                if (zug.getStatus().equals("green") && this.status.equals("free")) {
+                    System.out.println(multiRiderSchlange);
+                    this.setStatusTaken();
+                    fillBelowHundretOne();
+                }
+
+                if (zug.getStatus().equals("green") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() >= 100) {
+                    System.out.println("Über 100");
+                    this.setStatusTaken();
+                    fillsingle();
+                }
+                }else {
 
                 zug.setStatusRed();
                 //Zug fährt zu oder ist Beschädigt Methode
             }
-        } else{
-            System.out.println("FERTIG");
-            System.exit(-1);
         }
     }
 
@@ -61,7 +60,7 @@ public class Einteiler {
         multiRiderSchlange.removePersons();
         zug.setTakenSeats(0);
         this.setStatusFree();
-        System.out.println("Freie Sitze Gesamt: " +zug.getRestFreeSeats());
+        System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
         System.out.println("------------");
         zug.setAktiv();
@@ -78,7 +77,7 @@ public class Einteiler {
         int freeSeats = zug.getTakenSeats()[zug.getAktiv()] - multiRiderSchlange.getFirst().getGruppengroeße();
         System.out.println("Free: " + freeSeats);
         zug.setTakenSeats(freeSeats);
-        System.out.println("Freie Sitze Gesamt: " +zug.getRestFreeSeats());
+        System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
         System.out.println("------------");
         this.setStatusFree();
@@ -111,7 +110,7 @@ public class Einteiler {
     private void restGroupDeploy() {
         multiRiderSchlange.getFirst().setGruppengroeße(multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]);
         zug.setTakenSeats(0);
-        System.out.println("Freie Sitze Gesamt: " +zug.getRestFreeSeats());
+        System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
         System.out.println("------------");
         zug.setAktiv();
@@ -122,9 +121,9 @@ public class Einteiler {
     private void groupFitafterDeploy() {
 
         int val = multiRiderSchlange.getFirst().getGruppengroeße() - (zug.getTakenSeats()[zug.getAktiv()] - 1);
-        zug.setTakenSeats(zug.getTakenSeats()[zug.getAktiv()]-val);
+        zug.setTakenSeats(zug.getTakenSeats()[zug.getAktiv()] - val);
         multiRiderSchlange.getFirst().setGruppengroeße(val);
-        System.out.println("Freie Sitze Gesamt: " +zug.getRestFreeSeats());
+        System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
         System.out.println("------------");
         zug.setAktiv();
@@ -187,58 +186,6 @@ public class Einteiler {
             }
         }
     }
-
-    private void fillOverHundert() {
-
-        if (zug.getAktiv() <= zug.getWaggons()) {
-
-            //Gruppe passt Exakt in einen Waggon
-            if (multiRiderSchlange.getFirst().getGruppengroeße() == zug.getTakenSeats()[zug.getAktiv()]) {
-                groupFitInExakt();
-            }
-
-            // Gruppe passt in einen Wagon
-            else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getTakenSeats()[zug.getAktiv()]) {
-                multiRiderSchlange.removePersons();
-                int freeSeats = zug.getTakenSeats()[zug.getAktiv()] - multiRiderSchlange.getFirst().getGruppengroeße();
-                zug.setTakenSeats(freeSeats);
-                this.setStatusFree();
-                fillTrain();
-            }
-
-            // Gruppe passt nicht in einen Wagon
-            else if (multiRiderSchlange.getFirst().getGruppengroeße() > zug.getTakenSeats()[zug.getAktiv()]) {
-                //Es gib weniger freie Sitze als benötigt
-                if (multiRiderSchlange.getFirst().getGruppengroeße() > zug.getRestFreeSeats()) {
-                    zug.setStatusYellow();
-                    fillTrain();
-                }
-
-                // es gibt genügend Sitze aber es bleibt ein einzelner übrig
-                else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getRestFreeSeats()) {
-                    if (zug.getTakenSeats()[zug.getAktiv()] <= 1) {
-                        zug.setAktiv();
-                        this.setStatusFree();
-                        fillTrain();
-                    } else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getRestFreeSeats()) {
-
-
-//                        if ()//Ausgelagerte Methode muss hier hin
-
-
-                        multiRiderSchlange.getFirst().setGruppengroeße(multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]);
-                        zug.setAktiv();
-                        this.setStatusFree();
-                        fillTrain();
-                    }
-
-                }
-                //Nach dem die Wagons mit den Gruppen zugeilt wurden und die Warteschlangelänge über 100 ist, können wir via Singlerider die freien Sitze auffüllen.
-                fillsingle();
-            }
-        }
-    }
-
 
     private void fillsingle() {
 
