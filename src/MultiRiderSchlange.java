@@ -51,7 +51,17 @@ public class MultiRiderSchlange {
         System.out.println(tail);
 
         return tail;
+    }
 
+    public boolean isEmpty(){
+
+        boolean check = false;
+
+        if (this.warteschlange.size() == 0){
+            check = true;
+        }
+
+        return check;
     }
 
     @Override

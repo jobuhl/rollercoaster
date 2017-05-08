@@ -1,3 +1,8 @@
+import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * sCreated by Jojo on 01.05.17.
  */
@@ -29,20 +34,25 @@ public class Einteiler {
 
     public void fillTrain() {
 
-        //keine Singlerider Schlange
-        //keine Singlerider Schlange
-        if (zug.getStatus().equals("green") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() <= 100) {
-            this.setStatusTaken();
-            fillBelowHundretOne();
-        } else if (zug.getStatus().equals("green") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() >= 100) {
-            this.setStatusTaken();
-            fillOverHundert();
-        } else {
+        if (multiRiderSchlange.isEmpty() == false) {
+            if (zug.getStatus().equals("green") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() <= 100) {
+                System.out.println("Unter 100");
+                System.out.println(multiRiderSchlange);
+                this.setStatusTaken();
+                fillBelowHundretOne();
+            }
 
-            zug.setStatusRed();
-            //Zug fährt zu oder ist Beschädigt Methode
+            else if (zug.getStatus().equals("green") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() >= 100) {
+                System.out.println("Über 100");
+                this.setStatusTaken();
+                fillOverHundert();
+            } else {
+
+                zug.setStatusRed();
+                //Zug fährt zu oder ist Beschädigt Methode
+            }
+        } else{
         }
-
     }
 
     //Gruppe passt exakt in den Wagen
@@ -51,17 +61,36 @@ public class Einteiler {
 
         multiRiderSchlange.removePersons();
         zug.setTakenSeats(0);
-        zug.setAktiv();
+
         this.setStatusFree();
-        fillTrain();
+        System.out.println(zug.getRestFreeSeats());
+        System.out.println("------------");
+        zug.setAktiv();
+        try {
+            Thread.sleep(2000);
+            fillTrain();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void groupFitInLess() {
-        multiRiderSchlange.removePersons();
         int freeSeats = zug.getTakenSeats()[zug.getAktiv()] - multiRiderSchlange.getFirst().getGruppengroeße();
+        System.out.println("Free: " + freeSeats);
         zug.setTakenSeats(freeSeats);
+        System.out.println(Arrays.toString(zug.getTakenSeats()));
         this.setStatusFree();
-        fillTrain();
+        multiRiderSchlange.removePersons();
+
+        System.out.println(zug.getRestFreeSeats());
+        System.out.println("------------");
+        try {
+            Thread.sleep(3000);
+            fillTrain();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void trainReady() {
@@ -84,7 +113,10 @@ public class Einteiler {
     }
 
     private void groupFitafterDeploy() {
-        multiRiderSchlange.getFirst().setGruppengroeße(multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()] - 1);
+
+        int val = multiRiderSchlange.getFirst().getGruppengroeße() - (zug.getTakenSeats()[zug.getAktiv()] - 1);
+        zug.setTakenSeats(zug.getTakenSeats()[zug.getAktiv()]-val);
+        multiRiderSchlange.getFirst().setGruppengroeße(val);
         zug.setAktiv();
         this.setStatusFree();
         fillTrain();
@@ -108,27 +140,31 @@ public class Einteiler {
             else if (multiRiderSchlange.getFirst().getGruppengroeße() > zug.getTakenSeats()[zug.getAktiv()]) {
                 //Es gib weniger freie Sitze als benötigt
                 if (multiRiderSchlange.getFirst().getGruppengroeße() > zug.getRestFreeSeats()) {
+                    System.out.println(zug.getRestFreeSeats());
                     trainReady();
                 }
 
                 // es gibt genügend Sitze aber es bleibt ein einzelner übrig
                 else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getRestFreeSeats()) {
                     if (zug.getTakenSeats()[zug.getAktiv()] <= 1) {
+                        System.out.println("Freie Sitze: " + zug.getRestFreeSeats());
+                        System.out.println("Test");
                         newDeploy();
 
                     } else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getRestFreeSeats()) {
 
-                        if (multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()] %
-                                zug.getAnzahl_sitze() == 0 || multiRiderSchlange.getFirst().getGruppengroeße() -
-                                zug.getTakenSeats()[zug.getAktiv()] % zug.getAnzahl_sitze() == 2) {
+                        if ((multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]) %
+                                zug.getAnzahl_sitze() == 0 || (multiRiderSchlange.getFirst().getGruppengroeße() -
+                                zug.getTakenSeats()[zug.getAktiv()]) % zug.getAnzahl_sitze() == 2) {
+                            System.out.println("Test 2");
 
                             restGroupDeploy();
 
-                        } else if (multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()] %
+                        } else if ((multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]) %
                                 zug.getAnzahl_sitze() == 1) {
 
-                            if (multiRiderSchlange.getFirst().getGruppengroeße() % zug.getTakenSeats()[zug.getAktiv()]
-                                    - 1 == 0 || multiRiderSchlange.getFirst().getGruppengroeße() % zug.getTakenSeats()[zug.getAktiv()] - 1 == 2) {
+                            if (multiRiderSchlange.getFirst().getGruppengroeße() % (zug.getTakenSeats()[zug.getAktiv()]
+                                    - 1) == 0 || multiRiderSchlange.getFirst().getGruppengroeße() % (zug.getTakenSeats()[zug.getAktiv()] - 1) == 2) {
                                 groupFitafterDeploy();
                             }
 
@@ -154,7 +190,7 @@ public class Einteiler {
             // Gruppe passt in einen Wagon
             else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getTakenSeats()[zug.getAktiv()]) {
                 multiRiderSchlange.removePersons();
-                int freeSeats = zug.getAktiv() - multiRiderSchlange.getFirst().getGruppengroeße();
+                int freeSeats = zug.getTakenSeats()[zug.getAktiv()] - multiRiderSchlange.getFirst().getGruppengroeße();
                 zug.setTakenSeats(freeSeats);
                 this.setStatusFree();
                 fillTrain();

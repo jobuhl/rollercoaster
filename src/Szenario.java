@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -23,26 +24,24 @@ public class Szenario {
     public static void main(String[] args) {
 
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             int ran = r.nextInt(max - min) + min;
+  //          int ran = 3;
             featureEventList.add(new PersonenGruppe(ran));
         }
-
 
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                    for (int i = 0; i < featureEventList.size(); i++) {
+                for (int i = 0; i < featureEventList.size(); i++) {
 
-                        try {
-                            Thread.sleep((long)featureEventList.get(i).getAnkunftszeit());
-                            multiRiderSchlange.addPersons(featureEventList.get(i));
-                            System.out.println("hello");
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-
+                    try {
+                        Thread.sleep((long) featureEventList.get(i).getAnkunftszeit());
+                        multiRiderSchlange.addPersons(featureEventList.get(i));
+                  //          System.out.println(multiRiderSchlange.toString());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -51,13 +50,12 @@ public class Szenario {
             @Override
             public void run() {
 
-                while (true){
-                    if (multiRiderSchlange.getWartelaenge() > 0)
+                while (true) {
+
                     einteiler1.fillTrain();
                 }
             }
         });
-
         t1.start();
         t2.start();
 
