@@ -16,6 +16,8 @@ public class Zug {
     //Sitzplätze des Zugs
     private int[] takenSeats;
 
+    private boolean freeSeats = false;
+
     //fahrt dauer des Zuges
     private int fahrt_dauer; //in sekunden
 
@@ -97,6 +99,13 @@ public class Zug {
         return counter;
     }
 
+    public boolean isFreeSeats() {
+        return freeSeats;
+    }
+
+    public void setFreeSeats(boolean freeSeats) {
+        this.freeSeats = freeSeats;
+    }
 
     @Override
     public String toString() {
