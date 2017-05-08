@@ -24,11 +24,27 @@ public class Szenario {
     public static void main(String[] args) {
 
 
-        for (int i = 0; i < 10; i++) {
+/*        for (int i = 0; i < 10; i++) {
             int ran = r.nextInt(max - min) + min;
   //          int ran = 3;
             featureEventList.add(new PersonenGruppe(ran));
-        }
+        }*/
+
+        featureEventList.add(new PersonenGruppe(6));
+        featureEventList.add(new PersonenGruppe(4));
+        featureEventList.add(new PersonenGruppe(5));
+        featureEventList.add(new PersonenGruppe(6));
+        featureEventList.add(new PersonenGruppe(1));
+        featureEventList.add(new PersonenGruppe(2));
+        featureEventList.add(new PersonenGruppe(2));
+        featureEventList.add(new PersonenGruppe(4));
+        featureEventList.add(new PersonenGruppe(5));
+        featureEventList.add(new PersonenGruppe(5));
+        featureEventList.add(new PersonenGruppe(2));
+        featureEventList.add(new PersonenGruppe(2));
+        featureEventList.add(new PersonenGruppe(3));
+        featureEventList.add(new PersonenGruppe(4));
+
 
         Thread t1 = new Thread(new Runnable() {
             @Override

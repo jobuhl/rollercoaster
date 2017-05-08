@@ -1,6 +1,3 @@
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -52,6 +49,8 @@ public class Einteiler {
                 //Zug fährt zu oder ist Beschädigt Methode
             }
         } else{
+            System.out.println("FERTIG");
+            System.exit(-1);
         }
     }
 
@@ -61,9 +60,9 @@ public class Einteiler {
 
         multiRiderSchlange.removePersons();
         zug.setTakenSeats(0);
-
         this.setStatusFree();
-        System.out.println(zug.getRestFreeSeats());
+        System.out.println("Freie Sitze Gesamt: " +zug.getRestFreeSeats());
+        System.out.println(Arrays.toString(zug.getTakenSeats()));
         System.out.println("------------");
         zug.setAktiv();
         try {
@@ -79,7 +78,9 @@ public class Einteiler {
         int freeSeats = zug.getTakenSeats()[zug.getAktiv()] - multiRiderSchlange.getFirst().getGruppengroeße();
         System.out.println("Free: " + freeSeats);
         zug.setTakenSeats(freeSeats);
+        System.out.println("Freie Sitze Gesamt: " +zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
+        System.out.println("------------");
         this.setStatusFree();
         multiRiderSchlange.removePersons();
 
@@ -104,9 +105,15 @@ public class Einteiler {
         fillTrain();
     }
 
+    // hier passt die Änderung der Gruppengröße nicht. Erst wird TakenSeats auf 0 gesetz
+    // danach wird die Gruppengröße (gruppengröße - 0) gemacht, daher ändert sich die 5er Gruppengröße nie....
+    // trick 17 - einfach erst die Gruppengröße ändern und danach setTakenSeats auf 0 :) Jetzt passt es ^^
     private void restGroupDeploy() {
-        zug.setTakenSeats(0);
         multiRiderSchlange.getFirst().setGruppengroeße(multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]);
+        zug.setTakenSeats(0);
+        System.out.println("Freie Sitze Gesamt: " +zug.getRestFreeSeats());
+        System.out.println(Arrays.toString(zug.getTakenSeats()));
+        System.out.println("------------");
         zug.setAktiv();
         this.setStatusFree();
         fillTrain();
@@ -117,6 +124,9 @@ public class Einteiler {
         int val = multiRiderSchlange.getFirst().getGruppengroeße() - (zug.getTakenSeats()[zug.getAktiv()] - 1);
         zug.setTakenSeats(zug.getTakenSeats()[zug.getAktiv()]-val);
         multiRiderSchlange.getFirst().setGruppengroeße(val);
+        System.out.println("Freie Sitze Gesamt: " +zug.getRestFreeSeats());
+        System.out.println(Arrays.toString(zug.getTakenSeats()));
+        System.out.println("------------");
         zug.setAktiv();
         this.setStatusFree();
         fillTrain();
