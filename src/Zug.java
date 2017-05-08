@@ -71,6 +71,10 @@ public class Zug {
         aktiv++;
     }
 
+    public void setAktivToZero() {
+        aktiv = 0;
+    }
+
     public String getStatus() {
         return status;
     }
