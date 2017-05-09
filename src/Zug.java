@@ -64,7 +64,7 @@ public class Zug {
     }
 
     public int getAktiv() {
-        return aktiv;
+            return aktiv;
     }
 
     public void setAktiv() {

@@ -30,7 +30,7 @@ public class Einteiler {
 
     public void fillTrain() {
 
-        if (multiRiderSchlange.isEmpty() == false) {
+        if (multiRiderSchlange.isEmpty() == false && !(zug.getStatus().equals("red"))) {
 
 //            System.out.println(zug.getStatus());
 //            System.out.println(status);
@@ -151,7 +151,12 @@ public class Einteiler {
     }
 
     private void trainReady() {
-        zug.setStatusYellow();
+        if (multiRiderSchlange.getWartelaenge() <= 100){
+            zug.setStatusYellow();
+        }else{
+            zug.setStatusRed();
+        }
+
         this.setStatusFree();
         zug.setAktivToZero();
         System.out.println(zug.getAktiv());
@@ -210,7 +215,7 @@ public class Einteiler {
             }
 
         } else {
-            zug.setStatusYellow();
+            zug.setStatusRed();
             fillTrain();
         }
     }
