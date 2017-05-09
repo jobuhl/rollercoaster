@@ -10,10 +10,12 @@ public class PersonenGruppe {
     private double ausstiegszeit;
 
     public PersonenGruppe(int gruppengroeße) {
+
+
         this.gruppengroeße = gruppengroeße;
-        this.ankunftszeit = 1000;
-        this.ladezeit = 2000;
-        this.ausstiegszeit = 3000;
+        this.ankunftszeit = Math.random() * (10000-5000) + 5000;
+        this.ladezeit = Math.random() * (5000-2000) + 2000;
+        this.ausstiegszeit = Math.random() * (4000-2000) + 2000;
     }
 
 

@@ -29,9 +29,35 @@ public class Szenario {
         for (int i = 0; i < 80; i++) {
 
             int ran = r.nextInt(max - min) + min;
-  //          int ran = 3;
+            //          int ran = 3;
             featureEventList.add(new PersonenGruppe(ran));
         }
+
+
+
+//        System.out.println("FeatureEventList");
+//        System.out.println(featureEventList.toString());
+//        System.out.print("[");
+//        for (int i = 0; i < featureEventList.size() ; i++) {
+//            System.out.print("{"+ featureEventList.get(i).getAnkunftszeit() + "}");
+//        }
+//        System.out.print("]");
+//
+//        System.out.println("");
+//
+//        System.out.print("[");
+//        for (int i = 0; i < featureEventList.size() ; i++) {
+//            System.out.print("{" + featureEventList.get(i).getLadezeit() + "}");
+//        }
+//        System.out.print("]");
+//
+//        System.out.println("");
+//        System.out.print("[");
+//        for (int i = 0; i < featureEventList.size() ; i++) {
+//            System.out.print("{" + featureEventList.get(i).getAusstiegszeit() + "}");
+//        }
+//        System.out.print("]");
+
 
 //        featureEventList.add(new PersonenGruppe(6));
 //        featureEventList.add(new PersonenGruppe(4));
@@ -54,12 +80,33 @@ public class Szenario {
             public void run() {
                 for (int i = 0; i < featureEventList.size(); i++) {
 
-                    try {
-                        Thread.sleep((long) featureEventList.get(i).getAnkunftszeit());
-                        multiRiderSchlange.addPersons(featureEventList.get(i));
-                  //          System.out.println(multiRiderSchlange.toString());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    if (multiRiderSchlange.getWartelaenge() <= 100) {
+                        try {
+
+                            Thread.sleep((long) featureEventList.get(i).getAnkunftszeit());
+                            multiRiderSchlange.addPersons(featureEventList.get(i));
+                            //          System.out.println(multiRiderSchlange.toString());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }else{
+
+
+                        if (featureEventList.get(i).getGruppengroeße() == 1){
+                            try {
+                            Thread.sleep((long) featureEventList.get(i).getAnkunftszeit());
+                            singleRiderSchlange.addPersons(featureEventList.get(i));
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+                            try {
+                                Thread.sleep((long) featureEventList.get(i).getAnkunftszeit());
+                                multiRiderSchlange.addPersons(featureEventList.get(i));
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             }
@@ -76,7 +123,10 @@ public class Szenario {
             }
         });
         t1.start();
-        t2.start();
+        //t2.start();
+
+
+
 
     }
 }
