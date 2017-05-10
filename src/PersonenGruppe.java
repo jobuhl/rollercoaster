@@ -13,7 +13,7 @@ public class PersonenGruppe {
 
 
         this.gruppengroeße = gruppengroeße;
-        this.ankunftszeit = Math.random() * (10000-5000) + 5000;
+        this.ankunftszeit = Math.random() * (2000-1000) + 1000;
         this.ladezeit = Math.random() * (5000-2000) + 2000;
         this.ausstiegszeit = Math.random() * (4000-2000) + 2000;
     }

@@ -32,10 +32,10 @@ public class Einteiler {
 
         if (multiRiderSchlange.isEmpty() == false && !(zug.getStatus().equals("red"))) {
 
-            if (zug.getAktiv() <= zug.getWaggons()) { //aktiv kann bis auf 10 steigen und wenn takenSeats[10] dann Exception....
+            if (zug.getAktiv() <= zug.getWaggons()-1) { //aktiv kann bis auf 10 steigen und wenn takenSeats[10] dann Exception....
 
                 if (zug.getStatus().equals("green") && this.status.equals("free")) {
-                    System.out.println(multiRiderSchlange);
+                   // System.out.println(multiRiderSchlange);
                     this.setStatusTaken();
                     fillFirstRun();
                 }
@@ -43,6 +43,7 @@ public class Einteiler {
                 if (zug.getStatus().equals("yellow") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() >= 100
                         && zug.isFreeSeats() == true && singleRiderSchlange.isEmpty() == false) {
                     this.setStatusTaken();
+                    System.out.println("STARTE SINLERIDER");
                     fillsingle();
                 }
 
@@ -51,16 +52,19 @@ public class Einteiler {
                 }
 
             }else {
-                System.out.println("gute frage...");
+                if(singleRiderSchlange.getWartelaenge()>0) {
+                    fillsingle();
+                } else {
+                    System.out.println("ZUG VOLL");
+                    zugfahrt();
+
+                }
 
             }
         }
     }
 
     private void zugfahrt() {
-        Thread fahrt = new Thread(new Runnable() {
-            @Override
-            public void run() {
 
                 try {
                     System.out.println("Zug gleich wieder da");
@@ -70,7 +74,13 @@ public class Einteiler {
                     zug.wagonsleeren(); // neue Methode um Wagons-Array mit 3er zu befüllen
                     zug.setStatusGreen();
                     setStatusFree();
-                    fillTrain();
+
+                    try {
+                        Thread.sleep(4000);
+                        fillTrain();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
 
 
@@ -78,12 +88,9 @@ public class Einteiler {
                     e.printStackTrace();
                 }
 
-
             }
-        });
-        fahrt.start();
 
-    }
+
 
     private void fillFirstRun() {
 
@@ -149,10 +156,12 @@ public class Einteiler {
         this.setStatusFree();
         System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
+        System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
+        System.out.println("Wartelänge Single: " +singleRiderSchlange.getWartelaenge());
         System.out.println("------------");
         zug.setAktiv();
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
             fillTrain();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -162,27 +171,25 @@ public class Einteiler {
 
     private void groupFitInLess() {
         int freeSeats = zug.getTakenSeats()[zug.getAktiv()] - multiRiderSchlange.getFirst().getGruppengroeße();
-        System.out.println("Free: " + freeSeats);
         zug.setTakenSeats(freeSeats);
         System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
+        System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
+        System.out.println("Wartelänge Single: " +singleRiderSchlange.getWartelaenge());
         System.out.println("------------");
         this.setStatusFree();
         multiRiderSchlange.removePersons();
 
-        System.out.println(zug.getRestFreeSeats());
-        System.out.println("------------");
-        fillTrain();
-//        try {
-//            Thread.sleep(3000);
-//            fillTrain();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Thread.sleep(3000);
+            fillTrain();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void trainReady() {
-        if (multiRiderSchlange.getWartelaenge() >= 100){
+        if (multiRiderSchlange.getWartelaenge() > 100){
             zug.setStatusYellow();
         }else{
             zug.setStatusRed();
@@ -190,18 +197,30 @@ public class Einteiler {
 
         this.setStatusFree();
         zug.setAktivToZero();
-        System.out.println(zug.getAktiv());
-        System.out.println(this.getStatus());
-        System.out.println(zug.getStatus());
-        System.out.println(multiRiderSchlange.getWartelaenge());
-        fillTrain();
+        System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
+        System.out.println(Arrays.toString(zug.getTakenSeats()));
+        System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
+        System.out.println("Wartelänge Single: " +singleRiderSchlange.getWartelaenge());
+        System.out.println("------------");
+
+        try {
+            Thread.sleep(3000);
+            fillTrain();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void newDeploy() {
         zug.setFreeSeats(true);
         zug.setAktiv();
         this.setStatusFree();
-        fillTrain();
+        try {
+            Thread.sleep(3000);
+            fillTrain();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void restGroupDeploy() {
@@ -209,10 +228,17 @@ public class Einteiler {
         zug.setTakenSeats(0);
         System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
+        System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
+        System.out.println("Wartelänge Single: " +singleRiderSchlange.getWartelaenge());
         System.out.println("------------");
         zug.setAktiv();
         this.setStatusFree();
-        fillTrain();
+        try {
+            Thread.sleep(3000);
+            fillTrain();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void groupFitafterDeploy() {
@@ -222,32 +248,55 @@ public class Einteiler {
         multiRiderSchlange.getFirst().setGruppengroeße(val);
         System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
+        System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
+        System.out.println("Wartelänge Single: " +singleRiderSchlange.getWartelaenge());
         System.out.println("------------");
         zug.setFreeSeats(true);
         zug.setAktiv();
         this.setStatusFree();
-        fillTrain();
+        try {
+            Thread.sleep(3000);
+            fillTrain();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void fillsingle() {
 
-        if (zug.getAktiv() <= zug.getWaggons() && singleRiderSchlange.getWartelaenge() > 0 && zug.getRestFreeSeats() > 0) {
+        if (zug.getAktiv() <= zug.getWaggons() && singleRiderSchlange.getWartelaenge() > 0) {
 
             //SingleRider passt genau in aktiven Wagon
-            if (singleRiderSchlange.getFirst().getGruppengroeße() == zug.getTakenSeats()[zug.getAktiv()]) {
+            if (zug.getTakenSeats()[zug.getAktiv()] > 0) {
+;
+                zug.setTakenSeats(zug.getTakenSeats()[zug.getAktiv()]-singleRiderSchlange.getFirst().getGruppengroeße());
                 singleRiderSchlange.removePersons();
-                zug.setTakenSeats(0);
-                zug.setAktiv();
                 this.setStatusFree();
-                fillsingle();
+                System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
+                System.out.println(Arrays.toString(zug.getTakenSeats()));
+                System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
+                System.out.println("Wartelänge Single: " +singleRiderSchlange.getWartelaenge());
+                System.out.println("------------");
+                try {
+                    Thread.sleep(3000);
+                    fillsingle();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             } else {
                 zug.setAktiv();
+                this.setStatusFree();
                 fillsingle();
             }
 
         } else {
             zug.setStatusRed();
-            fillTrain();
+            try {
+                Thread.sleep(3000);
+                fillTrain();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

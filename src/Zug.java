@@ -75,11 +75,8 @@ public class Zug {
     }
 
     public void setAktiv() {
-        if(aktiv < 9) {
             aktiv++;
-        } else {
 
-        }
     }
 
     public void setAktivToZero() {
