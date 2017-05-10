@@ -62,6 +62,7 @@ public class Einteiler {
 
             }
         } else {
+
             System.out.println("Schlange LEER");
         }
     }
@@ -106,7 +107,7 @@ public class Einteiler {
 
     private void fillFirstRun() {
 
-        if (zug.getAktiv() <= zug.getWaggons()) {
+        if (zug.getAktiv() <= zug.getWaggons()-1) {
 
             //Gruppe passt Exakt in einen Waggon
             if (zug.getRestFreeSeats() >= multiRiderSchlange.getFirst().getGruppengroeße() && multiRiderSchlange.getFirst().getGruppengroeße() == zug.getTakenSeats()[zug.getAktiv()]) {
@@ -146,11 +147,11 @@ public class Einteiler {
                                 newDeploy();
                             }
 
-                            else if (multiRiderSchlange.getFirst().getGruppengroeße() % (zug.getTakenSeats()[zug.getAktiv()]
+                            if (multiRiderSchlange.getFirst().getGruppengroeße() % (zug.getTakenSeats()[zug.getAktiv()]
                                     - 1) == 0 || multiRiderSchlange.getFirst().getGruppengroeße() % (zug.getTakenSeats()[zug.getAktiv()] - 1) == 2) {
                                 groupFitafterDeploy();
                             } else {
-                                System.out.println("Hier könnte der Fehler sein");
+                                System.out.println("Hier könnte der Fehler sein 1");
                             }
 
                         }
@@ -161,7 +162,7 @@ public class Einteiler {
 
             }
         } else {
-            System.out.println("AMINA KOYIM");
+            System.out.println("Hier könnte der Fehler sein 2");
         }
     }
 
@@ -198,7 +199,7 @@ public class Einteiler {
     }
 
     private void trainReady() {
-        if (multiRiderSchlange.getWartelaenge() > 100){
+        if (multiRiderSchlange.getWartelaenge() > 100 && !singleRiderSchlange.isEmpty()){
             zug.setStatusYellow();
         }else{
             zug.setStatusRed();
