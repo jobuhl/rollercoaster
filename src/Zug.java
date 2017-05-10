@@ -43,6 +43,13 @@ public class Zug {
         return waggons;
     }
 
+    public void wagonsleeren() {
+        for (int i = 0; i < takenSeats.length; i++) {
+            takenSeats[i] = anzahl_sitze;
+        }
+
+    }
+
     public void setWaggons(int waggons) {
         this.waggons = waggons;
     }
@@ -68,7 +75,11 @@ public class Zug {
     }
 
     public void setAktiv() {
-        aktiv++;
+        if(aktiv < 9) {
+            aktiv++;
+        } else {
+
+        }
     }
 
     public void setAktivToZero() {

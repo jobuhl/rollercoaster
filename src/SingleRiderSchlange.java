@@ -49,6 +49,17 @@ public class SingleRiderSchlange {
         return tail;
     }
 
+    public boolean isEmpty(){
+
+        boolean check = false;
+
+        if (this.warteschlange.size() == 0){
+            check = true;
+        }
+
+        return check;
+    }
+
     @Override
     public String toString() {
         return "Warteschlange{" +

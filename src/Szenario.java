@@ -59,20 +59,20 @@ public class Szenario {
 //        System.out.print("]");
 
 
-//        featureEventList.add(new PersonenGruppe(6));
-//        featureEventList.add(new PersonenGruppe(4));
-//        featureEventList.add(new PersonenGruppe(5));
-//        featureEventList.add(new PersonenGruppe(6));
-//        featureEventList.add(new PersonenGruppe(1));
-//        featureEventList.add(new PersonenGruppe(2));
-//        featureEventList.add(new PersonenGruppe(2));
-//        featureEventList.add(new PersonenGruppe(4));
-//        featureEventList.add(new PersonenGruppe(5));
-//        featureEventList.add(new PersonenGruppe(5));
-//        featureEventList.add(new PersonenGruppe(2));
-//        featureEventList.add(new PersonenGruppe(2));
-//        featureEventList.add(new PersonenGruppe(3));
-//        featureEventList.add(new PersonenGruppe(4));
+        featureEventList.add(new PersonenGruppe(6));
+        featureEventList.add(new PersonenGruppe(4));
+        featureEventList.add(new PersonenGruppe(5));
+        featureEventList.add(new PersonenGruppe(6));
+        featureEventList.add(new PersonenGruppe(1));
+        featureEventList.add(new PersonenGruppe(2));
+        featureEventList.add(new PersonenGruppe(2));
+        featureEventList.add(new PersonenGruppe(4));
+        featureEventList.add(new PersonenGruppe(5));
+        featureEventList.add(new PersonenGruppe(5));
+        featureEventList.add(new PersonenGruppe(2));
+        featureEventList.add(new PersonenGruppe(2));
+        featureEventList.add(new PersonenGruppe(3));
+        featureEventList.add(new PersonenGruppe(4));
 
 
         Thread t1 = new Thread(new Runnable() {
@@ -123,7 +123,7 @@ public class Szenario {
             }
         });
         t1.start();
-        //t2.start();
+        t2.start();
 
 
 

@@ -32,10 +32,7 @@ public class Einteiler {
 
         if (multiRiderSchlange.isEmpty() == false && !(zug.getStatus().equals("red"))) {
 
-//            System.out.println(zug.getStatus());
-//            System.out.println(status);
-
-            if (zug.getAktiv() <= zug.getWaggons()) {
+            if (zug.getAktiv() <= zug.getWaggons()) { //aktiv kann bis auf 10 steigen und wenn takenSeats[10] dann Exception....
 
                 if (zug.getStatus().equals("green") && this.status.equals("free")) {
                     System.out.println(multiRiderSchlange);
@@ -43,16 +40,49 @@ public class Einteiler {
                     fillFirstRun();
                 }
 
-                if (zug.getStatus().equals("yellow") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() >= 100 && zug.isFreeSeats() == true) {
+                if (zug.getStatus().equals("yellow") && this.status.equals("free") && multiRiderSchlange.getWartelaenge() >= 100
+                        && zug.isFreeSeats() == true && singleRiderSchlange.isEmpty() == false) {
                     this.setStatusTaken();
-                    System.out.println("Yippi");
-                    //fillsingle();
+                    fillsingle();
                 }
+
+                if (zug.getStatus().equals("red")) {
+                    zugfahrt();
+                }
+
             }else {
-                zug.setStatusRed();
-                //Zug fährt zu oder ist Beschädigt Methode
+                System.out.println("gute frage...");
+
             }
         }
+    }
+
+    private void zugfahrt() {
+        Thread fahrt = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    System.out.println("Zug gleich wieder da");
+                    Thread.sleep(3000);
+                    System.out.println("Zug angekommen...");
+                    zug.setAktivToZero();
+                    zug.wagonsleeren(); // neue Methode um Wagons-Array mit 3er zu befüllen
+                    zug.setStatusGreen();
+                    setStatusFree();
+                    fillTrain();
+
+
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+        fahrt.start();
+
     }
 
     private void fillFirstRun() {
@@ -70,7 +100,7 @@ public class Einteiler {
             }
 
             // Gruppe passt nicht in einen Wagon
-            else if (multiRiderSchlange.getFirst().getGruppengroeße() > zug.getTakenSeats()[zug.getAktiv()]) {
+            else if (multiRiderSchlange.getFirst().getGruppengroeße() > zug.getTakenSeats()[zug.getAktiv()]) { // hier kann es zu gettakenseats[10] zum ArrayBound-Exception kommen...
                 //Es gib weniger freie Sitze als benötigt
                 if (multiRiderSchlange.getFirst().getGruppengroeße() > zug.getRestFreeSeats()) {
                     System.out.println(zug.getRestFreeSeats());
@@ -142,16 +172,17 @@ public class Einteiler {
 
         System.out.println(zug.getRestFreeSeats());
         System.out.println("------------");
-        try {
-            Thread.sleep(3000);
-            fillTrain();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        fillTrain();
+//        try {
+//            Thread.sleep(3000);
+//            fillTrain();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void trainReady() {
-        if (multiRiderSchlange.getWartelaenge() <= 100){
+        if (multiRiderSchlange.getWartelaenge() >= 100){
             zug.setStatusYellow();
         }else{
             zug.setStatusRed();
