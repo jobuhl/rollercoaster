@@ -67,6 +67,7 @@ public class Einteiler {
     }
 
     private void ausgabe() {
+        System.out.println("Gruppengröße: " +multiRiderSchlange.getFirst().getGruppengroeße());
         System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
         System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
@@ -126,11 +127,12 @@ public class Einteiler {
                 }
 
                 // es gibt genügend Sitze aber es bleibt ein einzelner übrig
-                else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getRestFreeSeats()) {
+                else if (multiRiderSchlange.getFirst().getGruppengroeße() <= zug.getRestFreeSeats()) {
                     if (zug.getTakenSeats()[zug.getAktiv()] <= 1) {
                         newDeploy();
 
-                    } else if (multiRiderSchlange.getFirst().getGruppengroeße() < zug.getRestFreeSeats()) {
+                    }
+                    else {
 
                         if ((multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]) %
                                 zug.getAnzahl_sitze() == 0 || (multiRiderSchlange.getFirst().getGruppengroeße() -

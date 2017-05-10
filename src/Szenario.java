@@ -17,7 +17,7 @@ public class Szenario {
 
     public static final MultiRiderSchlange multiRiderSchlange = new MultiRiderSchlange();
     public static final SingleRiderSchlange singleRiderSchlange = new SingleRiderSchlange();
-    public static final Zug zug = new Zug(10, 3, 300);
+    public static final Zug zug = new Zug(4, 3, 300);
 
     public static final Einteiler einteiler1 = new Einteiler(singleRiderSchlange, multiRiderSchlange, zug);
     public static final ArrayList<PersonenGruppe> featureEventList = new ArrayList();
@@ -26,12 +26,12 @@ public class Szenario {
     public static void main(String[] args) {
 
 
-        for (int i = 0; i < 100; i++) {
-
-            int ran = r.nextInt(max - min) + min;
-            //          int ran = 3;
-            featureEventList.add(new PersonenGruppe(ran));
-        }
+//        for (int i = 0; i < 100; i++) {
+//
+//            int ran = r.nextInt(max - min) + min;
+//            //          int ran = 3;
+//            featureEventList.add(new PersonenGruppe(ran));
+//        }
 
 
 
@@ -59,20 +59,20 @@ public class Szenario {
 //        System.out.print("]");
 
 
-//        featureEventList.add(new PersonenGruppe(6));
-//        featureEventList.add(new PersonenGruppe(4));
-//        featureEventList.add(new PersonenGruppe(5));
-//        featureEventList.add(new PersonenGruppe(6));
-//        featureEventList.add(new PersonenGruppe(1));
-//        featureEventList.add(new PersonenGruppe(2));
-//        featureEventList.add(new PersonenGruppe(2));
-//        featureEventList.add(new PersonenGruppe(4));
-//        featureEventList.add(new PersonenGruppe(5));
-//        featureEventList.add(new PersonenGruppe(5));
-//        featureEventList.add(new PersonenGruppe(2));
-//        featureEventList.add(new PersonenGruppe(2));
-//        featureEventList.add(new PersonenGruppe(3));
-//        featureEventList.add(new PersonenGruppe(4));
+        multiRiderSchlange.addPersons(new PersonenGruppe(5));
+        multiRiderSchlange.addPersons(new PersonenGruppe(5));
+        multiRiderSchlange.addPersons(new PersonenGruppe(5));
+        multiRiderSchlange.addPersons(new PersonenGruppe(5));
+        multiRiderSchlange.addPersons(new PersonenGruppe(5));
+        multiRiderSchlange.addPersons(new PersonenGruppe(5));
+        multiRiderSchlange.addPersons(new PersonenGruppe(6));
+        multiRiderSchlange.addPersons(new PersonenGruppe(6));
+        multiRiderSchlange.addPersons(new PersonenGruppe(6));
+        multiRiderSchlange.addPersons(new PersonenGruppe(6));
+        multiRiderSchlange.addPersons(new PersonenGruppe(2));
+        multiRiderSchlange.addPersons(new PersonenGruppe(2));
+        multiRiderSchlange.addPersons(new PersonenGruppe(3));
+        multiRiderSchlange.addPersons(new PersonenGruppe(4));
 
 
         Thread t1 = new Thread(new Runnable() {
@@ -122,7 +122,7 @@ public class Szenario {
                 }
             }
         });
-        t1.start();
+       // t1.start();
         t2.start();
 
 
