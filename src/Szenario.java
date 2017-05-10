@@ -26,7 +26,7 @@ public class Szenario {
     public static void main(String[] args) {
 
 
-        for (int i = 0; i < 80; i++) {
+        for (int i = 0; i < 100; i++) {
 
             int ran = r.nextInt(max - min) + min;
             //          int ran = 3;
