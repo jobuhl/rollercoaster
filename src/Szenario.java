@@ -26,7 +26,7 @@ public class Szenario {
     public static void main(String[] args) {
 
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 2; i++) {
             int ran = r.nextInt(max - min) + min;
             //          int ran = 3;
             featureEventList.add(new PersonenGruppe(ran));

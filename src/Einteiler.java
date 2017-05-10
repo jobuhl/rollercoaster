@@ -47,11 +47,8 @@ public class Einteiler {
                     fillsingle();
                 }
 
-                if (zug.getStatus().equals("red")) {
-                    zugfahrt();
-                }
-
             }else {
+
                 if(singleRiderSchlange.getWartelaenge()>0) {
                     fillsingle();
                 } else {
@@ -63,12 +60,34 @@ public class Einteiler {
             }
         } else {
 
-            System.out.println("Schlange LEER");
+            if (zug.getStatus().equals("red") == true){
+                System.out.println("<<<<<<<<<<");
+                System.out.println("test me if you can");
+                System.out.println("<<<<<<<<<<");
+                zugfahrt();
+            }else{
+                int freeSeats = zug.getRestFreeSeats();
+                int seats = zug.getAnzahl_sitze() * zug.getWaggons();
+                if (multiRiderSchlange.isEmpty() == true && freeSeats != seats){
+                    try {
+                        Thread.sleep(6000);
+                        if (multiRiderSchlange.isEmpty() == true && freeSeats != seats){
+                         zugfahrt();
+                        }
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    System.out.println(multiRiderSchlange.getWartelaenge());
+
+                }
+
+            }
         }
     }
 
     private void ausgabe() {
-        System.out.println("Gruppengröße: " +multiRiderSchlange.getFirst().getGruppengroeße());
         System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
         System.out.println(Arrays.toString(zug.getTakenSeats()));
         System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
@@ -199,7 +218,7 @@ public class Einteiler {
     }
 
     private void trainReady() {
-        if (multiRiderSchlange.getWartelaenge() > 100 && !singleRiderSchlange.isEmpty()){
+        if (multiRiderSchlange.getWartelaenge() > 100 && !(singleRiderSchlange.isEmpty()) == true){
             zug.setStatusYellow();
         }else{
             zug.setStatusRed();
@@ -230,7 +249,9 @@ public class Einteiler {
     }
 
     private void restGroupDeploy() {
-        multiRiderSchlange.getFirst().setGruppengroeße(multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()]);
+        int setValue = multiRiderSchlange.getFirst().getGruppengroeße() - zug.getTakenSeats()[zug.getAktiv()];
+        multiRiderSchlange.setWartelaenge(multiRiderSchlange.getWartelaenge()-zug.getTakenSeats()[zug.getAktiv()]);
+        multiRiderSchlange.getFirst().setGruppengroeße(setValue);
         zug.setTakenSeats(0);
         ausgabe();
         zug.setAktiv();
@@ -246,6 +267,7 @@ public class Einteiler {
     private void groupFitafterDeploy() {
 
         int val = multiRiderSchlange.getFirst().getGruppengroeße() - (zug.getTakenSeats()[zug.getAktiv()] - 1);
+        multiRiderSchlange.setWartelaenge(multiRiderSchlange.getWartelaenge()-val);
         zug.setTakenSeats(zug.getTakenSeats()[zug.getAktiv()] - val);
         multiRiderSchlange.getFirst().setGruppengroeße(val);
         ausgabe();
