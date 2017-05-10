@@ -71,7 +71,7 @@ public class Einteiler {
                 if (multiRiderSchlange.isEmpty() == true && freeSeats != seats){
                     try {
                         Thread.sleep(6000);
-                        if (multiRiderSchlange.isEmpty() == true && freeSeats != seats){
+                        if (multiRiderSchlange.isEmpty() == true){
                          zugfahrt();
                         }
 
