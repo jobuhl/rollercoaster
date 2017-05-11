@@ -6,7 +6,7 @@ public class PersonenGruppe {
     private int groupSize;
 
     public PersonenGruppe(int groupSize) {
-
+        this.groupSize = groupSize;
     }
 
     public int getGroupSize() {
