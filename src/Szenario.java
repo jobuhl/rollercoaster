@@ -22,14 +22,14 @@ public class Szenario {
     public static final Zug zug = new Zug(4, 3, 300);
     public static final SimulationsZeit sim1 = new SimulationsZeit();
 
-    public static final Einteiler einteiler1 = new Einteiler(singleRiderSchlange, multiRiderSchlange, zug, sim1);
+    public static final Einteiler einteiler1 = new Einteiler(singleRiderSchlange, multiRiderSchlange, zug, sim1,featureEventList);
 
 
 
 
     public static void main(String[] args) {
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 50; i++) {
             //          int ran = 3; // FOR SAME VALUE
             int ran = r.nextInt(max - min) + min;
             personList.add(new PersonenGruppe(ran));

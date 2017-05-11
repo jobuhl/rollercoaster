@@ -1,3 +1,5 @@
+import com.sun.xml.internal.ws.binding.FeatureListUtil;
+
 import java.util.Arrays;
 
 /**
@@ -10,12 +12,13 @@ public class Einteiler {
     private MultiRiderSchlange multiRiderSchlange;
     private Zug zug;
     private SimulationsZeit simulationsZeit;
-
-    public Einteiler(SingleRiderSchlange singleRiderSchlange, MultiRiderSchlange multiRiderSchlange, Zug zug, SimulationsZeit simulationsZeit) {
+    private FeatureEventList featureEventList;
+    public Einteiler(SingleRiderSchlange singleRiderSchlange, MultiRiderSchlange multiRiderSchlange, Zug zug, SimulationsZeit simulationsZeit, FeatureEventList futurEventList) {
         this.singleRiderSchlange = singleRiderSchlange;
         this.multiRiderSchlange = multiRiderSchlange;
         this.zug = zug;
         this.simulationsZeit = simulationsZeit;
+        this.featureEventList = futurEventList;
     }
 
     public String getStatus() {
@@ -82,52 +85,12 @@ public class Einteiler {
                         e.printStackTrace();
                     }
                 }else{
-                    System.out.println(multiRiderSchlange.getWartelaenge());
 
                 }
 
             }
         }
     }
-
-    private void ausgabe() {
-        System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
-        System.out.println(Arrays.toString(zug.getTakenSeats()));
-        System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
-        System.out.println("Wartelänge Single: " +singleRiderSchlange.getWartelaenge());
-        System.out.println("------------");
-
-    }
-
-    private void zugfahrt() {
-
-                try {
-                    System.out.println("Zug gleich wieder da");
-                    Thread.sleep(3000);
-                    simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + 3000);
-                    System.out.println("Zug angekommen...");
-                    zug.setAktivToZero();
-                    zug.wagonsleeren(); // neue Methode um Wagons-Array mit 3er zu befüllen
-                    zug.setStatusGreen();
-                    setStatusFree();
-
-                    try {
-                        Thread.sleep(4000);
-                        simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + 4000);
-                        fillTrain();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-
 
     private void fillFirstRun() {
 
@@ -190,7 +153,6 @@ public class Einteiler {
         }
     }
 
-    //Gruppe passt exakt in den Wagen
     private void groupFitInExakt() {
 
         multiRiderSchlange.removePersons();
@@ -198,12 +160,7 @@ public class Einteiler {
         this.setStatusFree();
         ausgabe();
         zug.setAktiv();
-        try {
-            Thread.sleep(3000);
-            fillTrain();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleeping();
 
     }
 
@@ -213,13 +170,7 @@ public class Einteiler {
         ausgabe();
         this.setStatusFree();
         multiRiderSchlange.removePersons();
-
-        try {
-            Thread.sleep(3000);
-            fillTrain();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleeping();
     }
 
     private void trainReady() {
@@ -232,25 +183,12 @@ public class Einteiler {
         this.setStatusFree();
         zug.setAktivToZero();
         ausgabe();
-
-        try {
-            Thread.sleep(3000);
-            fillTrain();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private void newDeploy() {
         zug.setFreeSeats(true);
         zug.setAktiv();
         this.setStatusFree();
-        try {
-            Thread.sleep(3000);
-            fillTrain();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private void restGroupDeploy() {
@@ -261,12 +199,7 @@ public class Einteiler {
         ausgabe();
         zug.setAktiv();
         this.setStatusFree();
-        try {
-            Thread.sleep(3000);
-            fillTrain();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //keine Zeit, da Gruppe noch nicht vollständig dirn ist, wird unter fitin oder fitinless berechnet
     }
 
     private void groupFitafterDeploy() {
@@ -279,12 +212,7 @@ public class Einteiler {
         zug.setFreeSeats(true);
         zug.setAktiv();
         this.setStatusFree();
-        try {
-            Thread.sleep(3000);
-            fillTrain();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //keine Zeit, siehe restGroupDeploy
     }
 
     private void fillsingle() {
@@ -298,12 +226,7 @@ public class Einteiler {
                 singleRiderSchlange.removePersons();
                 this.setStatusFree();
                 ausgabe();
-                try {
-                    Thread.sleep(3000);
-                    fillsingle();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sleeping();
             } else {
                 zug.setAktiv();
                 this.setStatusFree();
@@ -312,12 +235,55 @@ public class Einteiler {
 
         } else {
             zug.setStatusRed();
+        }
+    }
+
+    private void ausgabe() {
+        System.out.println("Freie Sitze Gesamt: " + zug.getRestFreeSeats());
+        System.out.println(Arrays.toString(zug.getTakenSeats()));
+        System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
+        System.out.println("Wartelänge Single: " +singleRiderSchlange.getWartelaenge());
+        System.out.println("------------");
+
+    }
+
+    private void zugfahrt() {
+
+        try {
+            System.out.println("Zug gleich wieder da");
+            Thread.sleep(3000);
+            simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + 3000);
+            System.out.println("Zug angekommen...");
+            zug.setAktivToZero();
+            zug.wagonsleeren(); // neue Methode um Wagons-Array mit 3er zu befüllen
+            zug.setStatusGreen();
+            setStatusFree();
+
             try {
-                Thread.sleep(3000);
+                Thread.sleep(4000);
+                simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + 4000);
                 fillTrain();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void sleeping(){
+        try {
+            Thread.sleep(featureEventList.getEntrytime().get(0));
+            simulationsZeit.setSimZeit( simulationsZeit.getSimZeit()+featureEventList.getEntrytime().get(0));
+            featureEventList.removeEnty();
+            System.out.println(simulationsZeit.getSimZeit());
+            fillTrain();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
