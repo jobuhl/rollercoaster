@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,11 +29,11 @@ public class MultiRiderSchlange {
 
     public void addPersons(PersonenGruppe gruppen) {
         warteschlange.add(gruppen);
-        wartelaenge += gruppen.getGruppengroeße();
+        wartelaenge += gruppen.getGroupSize();
     }
 
     public void removePersons () {
-        wartelaenge -= warteschlange.get(0).getGruppengroeße();
+        wartelaenge -= warteschlange.get(0).getGroupSize();
         warteschlange.remove(0);
     }
 

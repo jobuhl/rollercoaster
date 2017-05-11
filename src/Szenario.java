@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -17,41 +16,39 @@ public class Szenario {
 
     public static final MultiRiderSchlange multiRiderSchlange = new MultiRiderSchlange();
     public static final SingleRiderSchlange singleRiderSchlange = new SingleRiderSchlange();
-    public static final Zug zug = new Zug(4, 3, 300);
+    public static final ArrayList<PersonenGruppe> personList = new ArrayList();
+    public static final FeatureEventList featureEventList = new FeatureEventList();
 
-    public static final Einteiler einteiler1 = new Einteiler(singleRiderSchlange, multiRiderSchlange, zug);
-    public static final ArrayList<PersonenGruppe> featureEventList = new ArrayList();
+    public static final Zug zug = new Zug(4, 3, 300);
+    public static final SimulationsZeit sim1 = new SimulationsZeit();
+
+    public static final Einteiler einteiler1 = new Einteiler(singleRiderSchlange, multiRiderSchlange, zug, sim1);
+
+
 
 
     public static void main(String[] args) {
 
-
         for (int i = 0; i < 2; i++) {
+            //          int ran = 3; // FOR SAME VALUE
             int ran = r.nextInt(max - min) + min;
-            //          int ran = 3;
-            featureEventList.add(new PersonenGruppe(ran));
+            personList.add(new PersonenGruppe(ran));
+            featureEventList.add();
         }
-//        multiRiderSchlange.addPersons(new PersonenGruppe(5));
-//        multiRiderSchlange.addPersons(new PersonenGruppe(6));
-//        multiRiderSchlange.addPersons(new PersonenGruppe(6));
-//        multiRiderSchlange.addPersons(new PersonenGruppe(6));
-//        multiRiderSchlange.addPersons(new PersonenGruppe(6));
-//        multiRiderSchlange.addPersons(new PersonenGruppe(2));
-//        multiRiderSchlange.addPersons(new PersonenGruppe(2));
-//        multiRiderSchlange.addPersons(new PersonenGruppe(3));
-//        multiRiderSchlange.addPersons(new PersonenGruppe(4));
+
 
 
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < featureEventList.size(); i++) {
-
+                for (int i = 0; i < personList.size(); i++) {
                     if (multiRiderSchlange.getWartelaenge() <= 100) {
                         try {
+                            Thread.sleep((featureEventList.getArrivaltime().get(0)));
+                            sim1.setSimZeit(sim1.getSimZeit()+featureEventList.getArrivaltime().get(0));
+                            featureEventList.removeArrival();
 
-                            Thread.sleep((long) featureEventList.get(i).getAnkunftszeit());
-                            multiRiderSchlange.addPersons(featureEventList.get(i));
+                            multiRiderSchlange.addPersons(personList.get(i));
                             //          System.out.println(multiRiderSchlange.toString());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -59,17 +56,21 @@ public class Szenario {
                     }else{
 
 
-                        if (featureEventList.get(i).getGruppengroeße() == 1){
+                        if (personList.get(i).getGroupSize() == 1){
                             try {
-                            Thread.sleep((long) featureEventList.get(i).getAnkunftszeit());
-                            singleRiderSchlange.addPersons(featureEventList.get(i));
+                                Thread.sleep((featureEventList.getArrivaltime().get(0)));
+                                sim1.setSimZeit(sim1.getSimZeit()+featureEventList.getArrivaltime().get(0));
+                                featureEventList.removeArrival();
+                            singleRiderSchlange.addPersons(personList.get(i));
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }else{
                             try {
-                                Thread.sleep((long) featureEventList.get(i).getAnkunftszeit());
-                                multiRiderSchlange.addPersons(featureEventList.get(i));
+                                Thread.sleep((featureEventList.getArrivaltime().get(0)));
+                                sim1.setSimZeit(sim1.getSimZeit()+featureEventList.getArrivaltime().get(0));
+                                featureEventList.removeArrival();
+                                multiRiderSchlange.addPersons(personList.get(i));
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }

@@ -28,11 +28,11 @@ public class SingleRiderSchlange {
 
     public void addPersons(PersonenGruppe gruppen) {
         warteschlange.add(gruppen);
-        wartelaenge += gruppen.getGruppengroeße();
+        wartelaenge += gruppen.getGroupSize();
     }
 
     public void removePersons () {
-        wartelaenge -= warteschlange.get(0).getGruppengroeße();
+        wartelaenge -= warteschlange.get(0).getGroupSize();
         warteschlange.remove(0);
     }
 
