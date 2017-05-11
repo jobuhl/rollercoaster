@@ -259,9 +259,11 @@ public class Einteiler {
             zug.setAktivToZero();
             zug.wagonsleeren(); // neue Methode um Wagons-Array mit 3er zu befüllen
 
+            System.out.println("glückliche Fahrgäste steigen aus, da sie überlebt haben :-)");
             Thread.sleep(featureEventList.getExittime().get(0));
             simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + featureEventList.getExittime().get(0));
             featureEventList.removeExit();
+            System.out.println(simulationsZeit.getSimZeit());
 
             zug.setStatusGreen();
             setStatusFree();
