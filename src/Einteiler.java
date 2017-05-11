@@ -254,20 +254,17 @@ public class Einteiler {
             Thread.sleep(3000);
             simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + 3000);
             System.out.println("Zug angekommen...");
+            System.out.println(simulationsZeit.getSimZeit());
+
             zug.setAktivToZero();
             zug.wagonsleeren(); // neue Methode um Wagons-Array mit 3er zu befüllen
+
+            Thread.sleep(featureEventList.getExittime().get(0));
+            simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + featureEventList.getExittime().get(0));
+            featureEventList.removeExit();
+
             zug.setStatusGreen();
             setStatusFree();
-
-            try {
-                Thread.sleep(4000);
-                simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + 4000);
-                fillTrain();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
 
         } catch (InterruptedException e) {
             e.printStackTrace();

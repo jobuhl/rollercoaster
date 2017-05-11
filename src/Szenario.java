@@ -24,12 +24,9 @@ public class Szenario {
 
     public static final Einteiler einteiler1 = new Einteiler(singleRiderSchlange, multiRiderSchlange, zug, sim1,featureEventList);
 
-
-
-
     public static void main(String[] args) {
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 10; i++) {
             //          int ran = 3; // FOR SAME VALUE
             int ran = r.nextInt(max - min) + min;
             personList.add(new PersonenGruppe(ran));
@@ -48,15 +45,12 @@ public class Szenario {
                         try {
                             Thread.sleep((featureEventList.getArrivaltime().get(0)));
                             featureEventList.removeArrival();
-                            System.out.println( personList.get(i));
                             multiRiderSchlange.addPersons(personList.get(i));
                             //          System.out.println(multiRiderSchlange.toString());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }else{
-
-
                         if (personList.get(i).getGroupSize() == 1){
                             try {
                                 Thread.sleep((featureEventList.getArrivaltime().get(0)));
@@ -89,8 +83,8 @@ public class Szenario {
                 }
             }
         });
-       // t1.start();
-       // t2.start();
+        t1.start();
+        t2.start();
 
 
 
