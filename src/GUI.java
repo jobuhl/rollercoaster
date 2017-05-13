@@ -20,8 +20,8 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();
 
-        first = new Table(new String[]{"Hallo1", "Hallo2","Hallo3"});
-        second = new Table(new String[]{"Hal1", "Hal2","Hal3"});
+        first = new Table(new String[]{"Ankunftszeit Gruppen", "Einstiegszeit","Fahrtzeit","Ausstiegszeit","Zustand Zug", "Aktueller Wagon", "Freie Plätze Wagon", "Länge Warte M", "Länge Warte S","SimZeit"});
+        second = new Table(new String[]{"Gruppengröße", "Ankunftzeit","Einteilungszeit","Ausstiegszeit"});
 
         p_first.add(first);
         p_second.add(second);
