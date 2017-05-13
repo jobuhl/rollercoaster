@@ -49,11 +49,6 @@ public class Rollercoaster {
 
         }
 
-        System.out.println(featureEventList.getEntrytime());
-
-       // Object[] pers = personList.toArray(new Object[personList.size()]);
-
-
         Thread t1 = new Thread(new Runnable() {
             @Override
 
@@ -62,8 +57,20 @@ public class Rollercoaster {
                 for (int i = 0; i < personList.size(); i++) {
                     if (multiRiderSchlange.getWartelaenge() <= 100) {
                         try {
+                            gui.getFirst().addColumn(new String []{Integer.toString(featureEventList.getArrivaltime().get(0)),
+                                    "-",
+                                    "-",
+                                    "-",
+                                    zug.getStatus(),
+                                    Integer.toString(zug.getAktiv()),
+                                    Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
+                                    Integer.toString(multiRiderSchlange.getWartelaenge()),
+                                    Integer.toString(singleRiderSchlange.getWartelaenge()),
+                                    Long.toString(sim1.getSimZeit())});
                             Thread.sleep((featureEventList.getArrivaltime().get(0)));
+
                             featureEventList.removeArrival();
+
                             multiRiderSchlange.addPersons(personList.get(i));
                             //          System.out.println(multiRiderSchlange.toString());
                         } catch (InterruptedException e) {

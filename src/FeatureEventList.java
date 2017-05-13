@@ -12,8 +12,8 @@ public class FeatureEventList {
     public void add(){
 
         arrivaltime.add((int)(Math.random() * (2000-1000) + 1000));
-        entrytime.add((int)Math.random() * (5000-3000) + 3000);
-        exittime.add((int)Math.random() * (4000-2000) + 2000);
+        entrytime.add((int)(Math.random() * (5000-3000) + 3000));
+        exittime.add((int)(Math.random() * (4000-2000) + 2000));
 
     }
 
