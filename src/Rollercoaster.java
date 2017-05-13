@@ -32,7 +32,7 @@ public class Rollercoaster {
         gui = new GUI();
         gui.setVisible(true);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 40; i++) {
             //          int ran = 3; // FOR SAME VALUE
             int ran = r.nextInt(max - min) + min;
             personList.add(new PersonenGruppe(ran));
@@ -41,9 +41,15 @@ public class Rollercoaster {
            // Object[] pers = new Object["","",""];
 
 
-            gui.getSecond().addColumn(new String[]{Integer.toString(personList.get(0).getGroupSize()),Integer.toString(featureEventList.getArrivaltime().get(i)),Integer.toString(featureEventList.getEntrytime().get(i)),Integer.toString(featureEventList.getExittime().get(i))});
+            gui.getSecond().addColumn(new String[]{Integer.toString(personList.get(i).getGroupSize()),
+                                                   Integer.toString(featureEventList.getArrivaltime().get(i)),
+                                                   Integer.toString(featureEventList.getEntrytime().get(i)),
+                                                   Integer.toString(featureEventList.getExittime().get(i))
+            });
 
         }
+
+        System.out.println(featureEventList.getEntrytime());
 
        // Object[] pers = personList.toArray(new Object[personList.size()]);
 
