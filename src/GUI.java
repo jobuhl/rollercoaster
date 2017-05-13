@@ -69,7 +69,6 @@ public class GUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         first.addColumn(new String[]{"1","2","3"});
-
         revalidate();
         repaint();
     }
@@ -80,4 +79,13 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel p_first;
     private javax.swing.JPanel p_second;
     // End of variables declaration
+
+
+    public Table getFirst() {
+        return first;
+    }
+
+    public Table getSecond() {
+        return second;
+    }
 }

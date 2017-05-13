@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -37,9 +38,14 @@ public class Rollercoaster {
             personList.add(new PersonenGruppe(ran));
             featureEventList.add();
 
+           // Object[] pers = new Object["","",""];
+
+
+            gui.getSecond().addColumn(new String[]{Integer.toString(personList.get(0).getGroupSize()),Integer.toString(featureEventList.getArrivaltime().get(i)),Integer.toString(featureEventList.getEntrytime().get(i)),Integer.toString(featureEventList.getExittime().get(i))});
 
         }
 
+       // Object[] pers = personList.toArray(new Object[personList.size()]);
 
 
         Thread t1 = new Thread(new Runnable() {
