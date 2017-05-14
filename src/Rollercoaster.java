@@ -67,10 +67,9 @@ public class Rollercoaster {
                                     Integer.toString(multiRiderSchlange.getWartelaenge()),
                                     Integer.toString(singleRiderSchlange.getWartelaenge()),
                                     Long.toString(sim1.getSimZeit())});
+
                             Thread.sleep((featureEventList.getArrivaltime().get(0)));
-
                             featureEventList.removeArrival();
-
                             multiRiderSchlange.addPersons(personList.get(i));
                             //          System.out.println(multiRiderSchlange.toString());
                         } catch (InterruptedException e) {
@@ -80,6 +79,16 @@ public class Rollercoaster {
                         if (personList.get(i).getGroupSize() == 1){
                             try {
                                 Thread.sleep((featureEventList.getArrivaltime().get(0)));
+                                gui.getFirst().addColumn(new String []{Integer.toString(featureEventList.getArrivaltime().get(0)),
+                                        "-",
+                                        "-",
+                                        "-",
+                                        zug.getStatus(),
+                                        Integer.toString(zug.getAktiv()),
+                                        Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
+                                        Integer.toString(multiRiderSchlange.getWartelaenge()),
+                                        Integer.toString(singleRiderSchlange.getWartelaenge()),
+                                        Long.toString(sim1.getSimZeit())});
                                 featureEventList.removeArrival();
                             singleRiderSchlange.addPersons(personList.get(i));
                             } catch (InterruptedException e) {
@@ -88,6 +97,16 @@ public class Rollercoaster {
                         }else{
                             try {
                                 Thread.sleep((featureEventList.getArrivaltime().get(0)));
+                                gui.getFirst().addColumn(new String []{Integer.toString(featureEventList.getArrivaltime().get(0)),
+                                        "-",
+                                        "-",
+                                        "-",
+                                        zug.getStatus(),
+                                        Integer.toString(zug.getAktiv()),
+                                        Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
+                                        Integer.toString(multiRiderSchlange.getWartelaenge()),
+                                        Integer.toString(singleRiderSchlange.getWartelaenge()),
+                                        Long.toString(sim1.getSimZeit())});
                                 featureEventList.removeArrival();
                                 multiRiderSchlange.addPersons(personList.get(i));
                             } catch (InterruptedException e) {
