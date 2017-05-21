@@ -5,6 +5,9 @@ public class PersonenGruppe {
 
     private int groupSize;
 
+    private long arrivaltime;
+    private long staytime;
+
     public PersonenGruppe(int groupSize) {
         this.groupSize = groupSize;
     }
@@ -15,6 +18,22 @@ public class PersonenGruppe {
 
     public void setGroupSize(int groupSize) {
         this.groupSize = groupSize;
+    }
+
+    public long getArrivaltime() {
+        return arrivaltime;
+    }
+
+    public void setArrivaltime() {
+        this.arrivaltime = System.currentTimeMillis();
+    }
+
+    public long getStaytime() {
+        return staytime;
+    }
+
+    public long setStaytime() {
+        return this.staytime = System.currentTimeMillis() - this.arrivaltime;
     }
 
     @Override
