@@ -86,9 +86,9 @@ public class Rollercoaster {
                                 int aktivWagon = 0;
 
                                 if (zug.getAktiv() > zug.getWaggons()-1){
-                                    aktivWagon = zug.getWaggons()-1;
-                                }else{
-                                    aktivWagon = zug.getAktiv();
+                                    aktivWagon = zug.getWaggons();
+                                }else{aktivWagon = zug.getAktiv();
+
                                 }
 
 

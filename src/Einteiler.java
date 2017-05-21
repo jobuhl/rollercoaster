@@ -283,13 +283,6 @@ public class Einteiler {
             Thread.sleep(featureEventList.getEntrytime().get(0));
             simulationsZeit.setSimZeit( simulationsZeit.getSimZeit()+featureEventList.getEntrytime().get(0));
 
-            int aktivWagon = 0;
-            if (zug.getAktiv() > zug.getWaggons()-1){
-                aktivWagon = zug.getWaggons()-1;
-            }else{
-                aktivWagon = zug.getAktiv();
-            }
-
             Rollercoaster.getGui().getFirst().addColumn(new String []{
                     "-",
                     Integer.toString(featureEventList.getEntrytime().get(0)),
@@ -297,7 +290,7 @@ public class Einteiler {
                     "-",
                     zug.getStatus(),
                     Integer.toString(zug.getAktiv()),
-                    Integer.toString(zug.getTakenSeats()[aktivWagon]),
+                    Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
                     Integer.toString(multiRiderSchlange.getWartelaenge()),
                     Integer.toString(singleRiderSchlange.getWartelaenge()),
                     Long.toString(simulationsZeit.getSimZeit())});
