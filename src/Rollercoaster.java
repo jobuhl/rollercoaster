@@ -36,10 +36,22 @@ public class Rollercoaster {
         gui = new GUI();
         gui.setVisible(true);
 
-        for (int i = 0; i < 40; i++) {
+        personList.add(new PersonenGruppe(5));
+        personList.add(new PersonenGruppe(1));
+        personList.add(new PersonenGruppe(3));
+        personList.add(new PersonenGruppe(2));
+        personList.add(new PersonenGruppe(1));
+        personList.add(new PersonenGruppe(6));
+        personList.add(new PersonenGruppe(4));
+        personList.add(new PersonenGruppe(5));
+        personList.add(new PersonenGruppe(3));
+        personList.add(new PersonenGruppe(1));
+
+
+        for (int i = 0; i < 10; i++) {
             //          int ran = 3; // FOR SAME VALUE
-            int ran = r.nextInt(max - min) + min;
-            personList.add(new PersonenGruppe(ran));
+/*            int ran = r.nextInt(max - min) + min;
+            personList.add(new PersonenGruppe(ran));*/
             featureEventList.add();
 
             gui.getSecond().addColumn(new String[]{Integer.toString(personList.get(i).getGroupSize()),
@@ -57,11 +69,9 @@ public class Rollercoaster {
             public void run() {
                 for (int i = 0; i < personList.size(); i++) {
                     if (multiRiderSchlange.getWartelaenge() <= 100) {
+
                         try {
-
                             if (i == 0) {
-
-
                                 gui.getFirst().addColumn(new String[]{Integer.toString(
                                         featureEventList.getArrivaltime().get(0)),
                                         "-",
@@ -74,7 +84,7 @@ public class Rollercoaster {
                                         Integer.toString(singleRiderSchlange.getWartelaenge()),
                                         Long.toString(sim1.getSimZeit())});
 
-                                System.out.println(featureEventList.getArrivaltime().get(0));
+                                //System.out.println(featureEventList.getArrivaltime().get(0));
                                 SimulationsZeit.setSimZeit(featureEventList.getArrivaltime().get(0));
                                 Thread.sleep((featureEventList.getArrivaltime().get(0)));
                                 featureEventList.removeArrival();
@@ -94,7 +104,7 @@ public class Rollercoaster {
 
                                 gui.getFirst().addColumn(new String[]{
                                         Integer.toString(featureEventList.getArrivaltime().get(0)+ (int)sim1.getSimZeit()),
-                                        Integer.toString(featureEventList.getEntrytime().get(0)+ (int)sim1.getSimZeit()),
+                                        "-",//Integer.toString(featureEventList.getEntrytime().get(0)),
                                         "-",
                                         "-",
                                         zug.getStatus(),
@@ -155,6 +165,8 @@ public class Rollercoaster {
                         }
                     }
                 }
+                System.out.println("Durchgang fertig");
+                System.out.println("Simulationszeit = " + sim1.getSimZeit());
             }
         });
 
