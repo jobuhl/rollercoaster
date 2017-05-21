@@ -48,10 +48,10 @@ public class Rollercoaster {
         personList.add(new PersonenGruppe(1));
 
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 80; i++) {
             //          int ran = 3; // FOR SAME VALUE
-/*            int ran = r.nextInt(max - min) + min;
-            personList.add(new PersonenGruppe(ran));*/
+//            int ran = r.nextInt(max - min) + min;
+//            personList.add(new PersonenGruppe(ran));
             featureEventList.add();
 
             gui.getSecond().addColumn(new String[]{Integer.toString(personList.get(i).getGroupSize()),

@@ -352,7 +352,7 @@ public class Einteiler {
                     Integer.toString(singleRiderSchlange.getWartelaenge()),
                     Long.toString(simulationsZeit.getSimZeit())});
 
-            simulationsZeit.setSimZeit( featureEventList.getArrivaltime().get(0)+featureEventList.getEntrytime().get(0));
+           simulationsZeit.setSimZeit(simulationsZeit.getSimZeit() +featureEventList.getEntrytime().get(0));
             featureEventList.removeEnty();
             fillTrain();
         } catch (InterruptedException e) {
