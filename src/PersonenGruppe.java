@@ -1,4 +1,4 @@
-/**
+/**s
  * Created by Jojo on 28.04.17.
  */
 public class PersonenGruppe {
