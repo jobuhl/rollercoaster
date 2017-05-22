@@ -4,6 +4,8 @@
 public class PersonenGruppe {
 
     private int groupSize;
+    private long groupArrivalTime;
+    private long groupWaitingTime;
 
     public PersonenGruppe(int groupSize) {
         this.groupSize = groupSize;
@@ -16,6 +18,16 @@ public class PersonenGruppe {
     public void setGroupSize(int groupSize) {
         this.groupSize = groupSize;
     }
+
+    public void setGroupArrivalTime(){
+        this.groupArrivalTime = System.currentTimeMillis();
+    }
+
+    public void setGroupWaitingTime() {
+        this.groupWaitingTime = System.currentTimeMillis()-this.groupWaitingTime;
+    }
+
+
 
     @Override
     public String toString() {
