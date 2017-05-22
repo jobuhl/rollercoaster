@@ -30,9 +30,11 @@ public class MultiRiderSchlange {
     public void addPersons(PersonenGruppe gruppen) {
         warteschlange.add(gruppen);
         wartelaenge += gruppen.getGroupSize();
+        gruppen.setGroupArrivalTime();
     }
 
     public void removePersons () {
+
         wartelaenge -= warteschlange.get(0).getGroupSize();
         warteschlange.remove(0);
     }

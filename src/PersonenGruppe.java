@@ -19,6 +19,14 @@ public class PersonenGruppe {
         this.groupSize = groupSize;
     }
 
+    public long getGroupArrivalTime() {
+        return groupArrivalTime;
+    }
+
+    public long getGroupWaitingTime() {
+        return groupWaitingTime;
+    }
+
     public void setGroupArrivalTime(){
         this.groupArrivalTime = System.currentTimeMillis();
     }

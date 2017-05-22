@@ -17,6 +17,8 @@ public class Rollercoaster {
     public static final int max = 6;
     public static final int min_multi = 2;
 
+    static final Statistik stat = new Statistik();
+
     public static final MultiRiderSchlange multiRiderSchlange = new MultiRiderSchlange();
     public static final SingleRiderSchlange singleRiderSchlange = new SingleRiderSchlange();
     public static final ArrayList<PersonenGruppe> personList = new ArrayList();
@@ -36,22 +38,10 @@ public class Rollercoaster {
         gui = new GUI();
         gui.setVisible(true);
 
-        personList.add(new PersonenGruppe(5));
-        personList.add(new PersonenGruppe(1));
-        personList.add(new PersonenGruppe(3));
-        personList.add(new PersonenGruppe(2));
-        personList.add(new PersonenGruppe(1));
-        personList.add(new PersonenGruppe(6));
-        personList.add(new PersonenGruppe(4));
-        personList.add(new PersonenGruppe(5));
-        personList.add(new PersonenGruppe(3));
-        personList.add(new PersonenGruppe(1));
-
-
         for (int i = 0; i < 80; i++) {
             //          int ran = 3; // FOR SAME VALUE
-//            int ran = r.nextInt(max - min) + min;
-//            personList.add(new PersonenGruppe(ran));
+            int ran = r.nextInt(max - min) + min;
+            personList.add(new PersonenGruppe(ran));
             featureEventList.add();
 
             gui.getSecond().addColumn(new String[]{Integer.toString(personList.get(i).getGroupSize()),
@@ -96,7 +86,7 @@ public class Rollercoaster {
                                 int aktivWagon = 0;
 
                                 if (zug.getAktiv() > zug.getWaggons()-1){
-                                    aktivWagon = zug.getWaggons();
+                                    aktivWagon = zug.getWaggons()-1;
                                 }else{aktivWagon = zug.getAktiv();
 
                                 }
