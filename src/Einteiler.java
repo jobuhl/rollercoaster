@@ -1,5 +1,3 @@
-import com.sun.xml.internal.ws.binding.FeatureListUtil;
-
 import java.util.Arrays;
 
 /**
@@ -12,16 +10,16 @@ public class Einteiler {
     private MultiRiderSchlange multiRiderSchlange;
     private Zug zug;
     private SimulationsZeit simulationsZeit;
-    private FeatureEventList featureEventList;
+    private FutureEventList futureEventList;
 
 
     public Einteiler(SingleRiderSchlange singleRiderSchlange, MultiRiderSchlange multiRiderSchlange,
-                     Zug zug, SimulationsZeit simulationsZeit, FeatureEventList futurEventList) {
+                     Zug zug, SimulationsZeit simulationsZeit, FutureEventList futurEventList) {
         this.singleRiderSchlange = singleRiderSchlange;
         this.multiRiderSchlange = multiRiderSchlange;
         this.zug = zug;
         this.simulationsZeit = simulationsZeit;
-        this.featureEventList = futurEventList;
+        this.futureEventList = futurEventList;
 
     }
 
@@ -272,9 +270,9 @@ public class Einteiler {
 //            zug.wagonsleeren(); // neue Methode um Wagons-Array mit 3er zu befüllen
 //
 //            System.out.println("glückliche Fahrgäste steigen aus, da sie überlebt haben :-)");
-//            Thread.sleep(featureEventList.getExittime().get(0));
-//            simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + featureEventList.getExittime().get(0));
-//            featureEventList.removeExit();
+//            Thread.sleep(futureEventList.getExittime().get(0));
+//            simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + futureEventList.getExittime().get(0));
+//            futureEventList.removeExit();
 //            System.out.println(simulationsZeit.getSimZeit());
 //
 //            zug.setStatusGreen();
@@ -326,7 +324,7 @@ public class Einteiler {
                     "-",
                     "-",
                     "-",
-                    Long.toString(simulationsZeit.getSimZeit() + featureEventList.getExittime().get(0)),
+                    Long.toString(simulationsZeit.getSimZeit() + futureEventList.getExittime().get(0)),
                     zug.getStatus(),
                     Integer.toString(zug.getAktiv()),
                     Integer.toString(zug.getTakenSeats()[aktivWagon]),
@@ -335,9 +333,9 @@ public class Einteiler {
                     Long.toString(simulationsZeit.getSimZeit())});
 
 
-            Thread.sleep(featureEventList.getExittime().get(0));
-            simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + featureEventList.getExittime().get(0));
-            featureEventList.removeExit();
+            Thread.sleep(futureEventList.getExittime().get(0));
+            simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + futureEventList.getExittime().get(0));
+            futureEventList.removeExit();
             System.out.println("Simulationszeit = " +simulationsZeit.getSimZeit());
             zug.setStatusGreen();
             setStatusFree();
@@ -369,12 +367,12 @@ public class Einteiler {
 
     private void sleeping(){
         try {
-            Thread.sleep(featureEventList.getEntrytime().get(0));
+            Thread.sleep(futureEventList.getEntrytime().get(0));
 
 
             Rollercoaster.getGui().getFirst().addColumn(new String []{
                     "-",
-                    Integer.toString(featureEventList.getEntrytime().get(0)),
+                    Integer.toString(futureEventList.getEntrytime().get(0)),
                     "-",
                     "-",
                     zug.getStatus(),
@@ -384,8 +382,8 @@ public class Einteiler {
                     Integer.toString(singleRiderSchlange.getWartelaenge()),
                     Long.toString(simulationsZeit.getSimZeit())});
 
-           simulationsZeit.setSimZeit(simulationsZeit.getSimZeit() +featureEventList.getEntrytime().get(0));
-            featureEventList.removeEnty();
+           simulationsZeit.setSimZeit(simulationsZeit.getSimZeit() + futureEventList.getEntrytime().get(0));
+            futureEventList.removeEnty();
             fillTrain();
         } catch (InterruptedException e) {
             e.printStackTrace();

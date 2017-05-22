@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Created by Jojo on 11.05.17.
  */
-public class FeatureEventList {
+public class FutureEventList {
 
     private ArrayList<Integer> arrivaltime = new ArrayList<>();
     private ArrayList<Integer> entrytime = new ArrayList<>();
