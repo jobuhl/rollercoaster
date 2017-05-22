@@ -9,6 +9,7 @@ public class FeatureEventList {
     private ArrayList<Integer> entrytime = new ArrayList<>();
     private ArrayList<Integer> exittime = new ArrayList<>();
 
+
     public void add(){
 
         arrivaltime.add((int)(Math.random() * (2000-1000) + 1000));
