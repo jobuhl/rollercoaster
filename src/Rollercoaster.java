@@ -37,7 +37,7 @@ public class Rollercoaster {
         gui = new GUI();
         gui.setVisible(true);
 
-        for (int i = 0; i < 80; i++) {
+        for (int i = 0; i < 5; i++) {
             //          int ran = 3; // FOR SAME VALUE
             int ran = r.nextInt(max - min) + min;
             personList.add(new PersonenGruppe(ran));
@@ -61,10 +61,18 @@ public class Rollercoaster {
 
                         try {
                             if (i == 0) {
-                                gui.getFirst().addColumn(new String[]{Integer.toString(
-                                        FUTURE_EVENT_LIST.getArrivaltime().get(0)),
-                                        "-",
-                                        "-",
+
+
+
+                                SimulationsZeit.setAnkunftszeit(SimulationsZeit.getAnkunftszeit()+FUTURE_EVENT_LIST.getArrivaltime().get(0));
+                                SimulationsZeit.setEinsteigezeit(SimulationsZeit.getAnkunftszeit()+FUTURE_EVENT_LIST.getEntrytime().get(0));
+
+                                Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
+
+                                gui.getFirst().addColumn(new String[]{
+                                        Long.toString(SimulationsZeit.getAnkunftszeit()),
+                                        Long.toString(SimulationsZeit.getEinsteigezeit()),
+                                        "1",
                                         "-",
                                         zug.getStatus(),
                                         Integer.toString(zug.getAktiv()),
@@ -73,12 +81,10 @@ public class Rollercoaster {
                                         Integer.toString(singleRiderSchlange.getWartelaenge()),
                                         Long.toString(sim1.getSimZeit())});
 
-                                //System.out.println(FUTURE_EVENT_LIST.getArrivaltime().get(0));
                                 SimulationsZeit.setSimZeit(FUTURE_EVENT_LIST.getArrivaltime().get(0));
-                                Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
                                 FUTURE_EVENT_LIST.removeArrival();
+                                personList.get(i).setGroupArrivalTime();
                                 multiRiderSchlange.addPersons(personList.get(i));
-                                //          System.out.println(multiRiderSchlange.toString());
 
                             }else {
 
@@ -90,11 +96,18 @@ public class Rollercoaster {
 
                                 }
 
+                                if (SimulationsZeit.getAnkunftszeit() <= SimulationsZeit.getEinsteigezeit()){
+                                    SimulationsZeit.setAnkunftszeit(SimulationsZeit.getAnkunftszeit()+FUTURE_EVENT_LIST.getArrivaltime().get(0));
 
+                                }else{
+                                    SimulationsZeit.setEinsteigezeit(SimulationsZeit.getAnkunftszeit()+FUTURE_EVENT_LIST.getEntrytime().get(0));
+                                }
+
+                                Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
                                 gui.getFirst().addColumn(new String[]{
-                                        Integer.toString(FUTURE_EVENT_LIST.getArrivaltime().get(0)+ (int)sim1.getSimZeit()),
-                                        "-",//Integer.toString(FUTURE_EVENT_LIST.getEntrytime().get(0)),
-                                        "-",
+                                        Long.toString(SimulationsZeit.getAnkunftszeit()),
+                                        Long.toString(SimulationsZeit.getEinsteigezeit()),
+                                        "2",
                                         "-",
                                         zug.getStatus(),
                                         Integer.toString(zug.getAktiv()),
@@ -103,9 +116,19 @@ public class Rollercoaster {
                                         Integer.toString(singleRiderSchlange.getWartelaenge()),
                                         Long.toString(sim1.getSimZeit())});
 
-                                Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
-                                SimulationsZeit.setSimZeit(sim1.getSimZeit()+ FUTURE_EVENT_LIST.getArrivaltime().get(0));
+
+
+                               // SimulationsZeit.setSimZeit(sim1.getSimZeit()+ FUTURE_EVENT_LIST.getArrivaltime().get(0));
+
+                                if (SimulationsZeit.getAnkunftszeit() <= SimulationsZeit.getEinsteigezeit()){
+                                    SimulationsZeit.setSimZeit(SimulationsZeit.getAnkunftszeit());
+
+                                }else{
+                                    SimulationsZeit.setSimZeit(SimulationsZeit.getEinsteigezeit());
+                                }
+
                                 FUTURE_EVENT_LIST.removeArrival();
+                                personList.get(i).setGroupArrivalTime();
                                 multiRiderSchlange.addPersons(personList.get(i));
 
                             }
@@ -117,9 +140,16 @@ public class Rollercoaster {
                     }else{
                         if (personList.get(i).getGroupSize() == 1){
                             try {
+                                if (SimulationsZeit.getAnkunftszeit() <= SimulationsZeit.getEinsteigezeit()){
+                                    SimulationsZeit.setAnkunftszeit(SimulationsZeit.getAnkunftszeit()+FUTURE_EVENT_LIST.getArrivaltime().get(0));
+
+                                }else{
+                                    SimulationsZeit.setEinsteigezeit(SimulationsZeit.getAnkunftszeit()+FUTURE_EVENT_LIST.getEntrytime().get(0));
+                                }
                                 Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
-                                gui.getFirst().addColumn(new String []{Integer.toString(FUTURE_EVENT_LIST.getArrivaltime().get(0)),
-                                        "-",
+                                gui.getFirst().addColumn(new String []{
+                                        Integer.toString(FUTURE_EVENT_LIST.getArrivaltime().get(0)),
+                                        "3",
                                         "-",
                                         "-",
                                         zug.getStatus(),
@@ -128,16 +158,27 @@ public class Rollercoaster {
                                         Integer.toString(multiRiderSchlange.getWartelaenge()),
                                         Integer.toString(singleRiderSchlange.getWartelaenge()),
                                         Long.toString(sim1.getSimZeit())});
+
+
                                 FUTURE_EVENT_LIST.removeArrival();
+                                personList.get(i).setGroupArrivalTime();
                             singleRiderSchlange.addPersons(personList.get(i));
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }else{
                             try {
+
+                                if (SimulationsZeit.getAnkunftszeit() <= SimulationsZeit.getEinsteigezeit()){
+                                    SimulationsZeit.setAnkunftszeit(SimulationsZeit.getAnkunftszeit()+FUTURE_EVENT_LIST.getArrivaltime().get(0));
+
+                                }else{
+                                    SimulationsZeit.setEinsteigezeit(SimulationsZeit.getAnkunftszeit()+FUTURE_EVENT_LIST.getEntrytime().get(0));
+                                }
                                 Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
-                                gui.getFirst().addColumn(new String []{Integer.toString(FUTURE_EVENT_LIST.getArrivaltime().get(0)),
-                                        "-",
+                                gui.getFirst().addColumn(new String []{
+                                        Long.toString(SimulationsZeit.getAnkunftszeit()),
+                                        Long.toString(SimulationsZeit.getEinsteigezeit()),
                                         "-",
                                         "-",
                                         zug.getStatus(),
@@ -147,6 +188,7 @@ public class Rollercoaster {
                                         Integer.toString(singleRiderSchlange.getWartelaenge()),
                                         Long.toString(sim1.getSimZeit())});
                                 FUTURE_EVENT_LIST.removeArrival();
+                                personList.get(i).setGroupArrivalTime();
                                 multiRiderSchlange.addPersons(personList.get(i));
                             } catch (InterruptedException e) {
                                 e.printStackTrace();

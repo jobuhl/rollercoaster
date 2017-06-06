@@ -82,6 +82,8 @@ public class Einteiler {
                       simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + 6000);
                         if (multiRiderSchlange.isEmpty() == true){
                             zug.setStatusRed();
+
+
                          zugfahrt();
                         }
 
@@ -159,6 +161,9 @@ public class Einteiler {
 
     private void groupFitInExakt() {
 
+        multiRiderSchlange.getFirst().setGroupWaitingTime();
+        Rollercoaster.stat.addStat(multiRiderSchlange.getFirst());
+
         multiRiderSchlange.removePersons();
         zug.setTakenSeats(0);
         this.setStatusFree();
@@ -175,6 +180,9 @@ public class Einteiler {
         System.out.println("groupFitInLess");
         ausgabe();
         this.setStatusFree();
+        multiRiderSchlange.getFirst().setGroupWaitingTime();
+        Rollercoaster.stat.addStat(multiRiderSchlange.getFirst());
+
         multiRiderSchlange.removePersons();
         sleeping();
     }
@@ -232,6 +240,8 @@ public class Einteiler {
             if (zug.getTakenSeats()[zug.getAktiv()] > 0) {
 ;
                 zug.setTakenSeats(zug.getTakenSeats()[zug.getAktiv()]-singleRiderSchlange.getFirst().getGroupSize());
+                multiRiderSchlange.getFirst().setGroupWaitingTime();
+                Rollercoaster.stat.addStat(singleRiderSchlange.getFirst());
                 singleRiderSchlange.removePersons();
                 this.setStatusFree();
                 ausgabe();
@@ -253,6 +263,7 @@ public class Einteiler {
         System.out.println("Wartelänge Multi: " +multiRiderSchlange.getWartelaenge());
         System.out.println("Wartelänge Single: " +singleRiderSchlange.getWartelaenge());
         System.out.println("Simulationszeit = " +SimulationsZeit.getSimZeit());
+        System.out.println(Rollercoaster.stat.getPersGroupStat());
         System.out.println("------------");
 
     }
@@ -298,6 +309,9 @@ public class Einteiler {
                 aktivWagon = zug.getAktiv();
             }
 
+
+            simulationsZeit.setEinsteigezeit(simulationsZeit.getEinsteigezeit()+3000);
+            Thread.sleep(3000);
             Rollercoaster.getGui().getFirst().addColumn(new String []{
                     "-",
                     "-",
@@ -310,7 +324,7 @@ public class Einteiler {
                     Integer.toString(singleRiderSchlange.getWartelaenge()),
                     Long.toString(simulationsZeit.getSimZeit())});
 
-            Thread.sleep(3000);
+
             simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + 3000);
 
             System.out.println("Zug angekommen...");
@@ -332,7 +346,7 @@ public class Einteiler {
                     Integer.toString(singleRiderSchlange.getWartelaenge()),
                     Long.toString(simulationsZeit.getSimZeit())});
 
-
+            simulationsZeit.setEinsteigezeit(simulationsZeit.getEinsteigezeit()+futureEventList.getExittime().get(0));
             Thread.sleep(futureEventList.getExittime().get(0));
             simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + futureEventList.getExittime().get(0));
             futureEventList.removeExit();
@@ -367,12 +381,12 @@ public class Einteiler {
 
     private void sleeping(){
         try {
+
+
             Thread.sleep(futureEventList.getEntrytime().get(0));
-
-
             Rollercoaster.getGui().getFirst().addColumn(new String []{
-                    "-",
-                    Integer.toString(futureEventList.getEntrytime().get(0)),
+                    Long.toString(SimulationsZeit.getAnkunftszeit()),
+                    Long.toString(SimulationsZeit.getEinsteigezeit()),
                     "-",
                     "-",
                     zug.getStatus(),
@@ -380,15 +394,22 @@ public class Einteiler {
                     Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
                     Integer.toString(multiRiderSchlange.getWartelaenge()),
                     Integer.toString(singleRiderSchlange.getWartelaenge()),
+
+
                     Long.toString(simulationsZeit.getSimZeit())});
 
-           simulationsZeit.setSimZeit(simulationsZeit.getSimZeit() + futureEventList.getEntrytime().get(0));
+
+
+                simulationsZeit.setSimZeit(SimulationsZeit.getEinsteigezeit());
+                simulationsZeit.setEinsteigezeit(simulationsZeit.getEinsteigezeit()+futureEventList.getEntrytime().get(0));
+
             futureEventList.removeEnty();
             fillTrain();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
+
 }
 
 

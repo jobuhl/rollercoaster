@@ -5,12 +5,13 @@ import java.util.ArrayList;
  */
 public class Statistik {
 
-    private ArrayList<PersonenGruppe> persGroupStat;
+    private ArrayList<PersonenGruppe> persGroupStat = new ArrayList<>();
 
     public void addStat(PersonenGruppe personenGruppe){
         persGroupStat.add(personenGruppe);
     }
 
-
-
+    public ArrayList<PersonenGruppe> getPersGroupStat() {
+        return persGroupStat;
+    }
 }
