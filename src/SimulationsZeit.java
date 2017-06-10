@@ -5,6 +5,7 @@ public class SimulationsZeit {
 
     private static long ankunftszeit = 0;
     private static long einsteigezeit = 0;
+    private static long fahrtzeit = 0;
 
     private static long simZeit = 0;
 
@@ -30,5 +31,13 @@ public class SimulationsZeit {
 
     public static void setEinsteigezeit(long einsteigezeit) {
         SimulationsZeit.einsteigezeit = einsteigezeit;
+    }
+
+    public static long getFahrtzeit() {
+        return fahrtzeit;
+    }
+
+    public static void setFahrtzeit(long fahrtzeit) {
+        SimulationsZeit.fahrtzeit = fahrtzeit;
     }
 }
