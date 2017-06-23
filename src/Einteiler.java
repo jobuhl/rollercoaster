@@ -226,6 +226,30 @@ public class Einteiler {
         }
     }
 
+
+    private void output(){
+
+
+            int aktivWagon = 0;
+            if (zug.getAktiv() > zug.getWaggons()-1){
+                aktivWagon = zug.getWaggons()-1;
+            }else{
+                aktivWagon = zug.getAktiv();
+            }
+
+        Rollercoaster.getGui().getFirst().addColumn(new String []{
+                Long.toString(SimulationsZeit.getAnkunftszeit()),
+                Long.toString(SimulationsZeit.getEinsteigezeit()),
+                Long.toString(simulationsZeit.getFahrtzeit()),
+                "-",
+                zug.getStatus(),
+                Integer.toString(zug.getAktiv()),
+                Integer.toString(zug.getTakenSeats()[aktivWagon]),
+                Integer.toString(multiRiderSchlange.getWartelaenge()),
+                Integer.toString(singleRiderSchlange.getWartelaenge()),
+                Long.toString(simulationsZeit.getSimZeit())});
+    }
+
     private void zugfahrt() {
 
         zug.setStatusRed();
@@ -321,15 +345,16 @@ public class Einteiler {
                 aktivWagon = zug.getAktiv();
             }
 
-
+            System.out.println(futureEventList.getEntrytime().get(0));
             Thread.sleep(futureEventList.getEntrytime().get(0));
 
             Rollercoaster.getGui().getFirst().addColumn(new String []{
                     Long.toString(SimulationsZeit.getAnkunftszeit()),
                     Long.toString(SimulationsZeit.getEinsteigezeit()),
                     Long.toString(simulationsZeit.getFahrtzeit()),
-                    "-",
-                    zug.getStatus(),
+                    //"-",
+                    Integer.toString(futureEventList.getEntrytime().get(0)),
+                    //zug.getStatus(),
                     Integer.toString(aktivWagon),
                     Integer.toString(zug.getTakenSeats()[aktivWagon]),
                     Integer.toString(multiRiderSchlange.getWartelaenge()),
