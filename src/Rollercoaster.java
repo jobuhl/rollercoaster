@@ -39,7 +39,7 @@ public class Rollercoaster {
         gui = new GUI();
         gui.setVisible(true);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             //          int ran = 3; // FOR SAME VALUE
             int ran = r.nextInt(max - min) + min;
             personList.add(new PersonenGruppe(ran));
@@ -219,6 +219,9 @@ public class Rollercoaster {
 
 
                 }
+
+                sim1.setAnkunftszeit(0);
+
             }
         });
 
@@ -236,6 +239,15 @@ public class Rollercoaster {
 
         t1.start();
         t2.start();
+
+        if (sim1.getSimZeit() > 100000){
+            try {
+                t1.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
 
 
     }
