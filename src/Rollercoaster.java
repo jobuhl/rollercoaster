@@ -39,7 +39,7 @@ public class Rollercoaster {
         gui = new GUI();
         gui.setVisible(true);
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             //          int ran = 3; // FOR SAME VALUE
             int ran = r.nextInt(max - min) + min;
             personList.add(new PersonenGruppe(ran));
@@ -56,33 +56,33 @@ public class Rollercoaster {
         t1 = new Thread(new Runnable() {
 
 
-            //Ausgabe für erstes Element
-            private void output1(int i) throws InterruptedException {
+                    //Ausgabe für erstes Element
+                    private void output1(int i) throws InterruptedException {
 
-                sim1.setAnkunftszeit(sim1.getAnkunftszeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
-                sim1.setEinsteigezeit(sim1.getAnkunftszeit() + FUTURE_EVENT_LIST.getEntrytime().get(0));
-                sim1.setSleeptimeArrival(FUTURE_EVENT_LIST.getArrivaltime().get(0));
-                sim1.setSleeptimeEntry(FUTURE_EVENT_LIST.getEntrytime().get(0) + FUTURE_EVENT_LIST.getArrivaltime().get(0));
+                        sim1.setAnkunftszeit(sim1.getAnkunftszeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
+                        sim1.setEinsteigezeit(sim1.getAnkunftszeit() + FUTURE_EVENT_LIST.getEntrytime().get(0));
+                        sim1.setSleeptimeArrival(FUTURE_EVENT_LIST.getArrivaltime().get(0));
+                        sim1.setSleeptimeEntry(FUTURE_EVENT_LIST.getEntrytime().get(0) + FUTURE_EVENT_LIST.getArrivaltime().get(0));
 
-                gui.getFirst().addColumn(new String[]{
-                        Long.toString(sim1.getAnkunftszeit()),
-                        Long.toString(sim1.getEinsteigezeit()),
-                        Long.toString(sim1.getFahrtzeit()),
-                        Long.toString(sim1.getFahrtzeit()),
-                        zug.getStatus(),
-                        Integer.toString(zug.getAktiv()),
-                        Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
-                        Integer.toString(multiRiderSchlange.getWartelaenge()),
-                        Integer.toString(singleRiderSchlange.getWartelaenge()),
-                        Long.toString(sim1.getSimZeit())});
+                        gui.getFirst().addColumn(new String[]{
+                                Long.toString(sim1.getAnkunftszeit()),
+                                Long.toString(sim1.getEinsteigezeit()),
+                                Long.toString(sim1.getFahrtzeit()),
+                                Long.toString(sim1.getFahrtzeit()),
+                                zug.getStatus(),
+                                Integer.toString(zug.getAktiv()),
+                                Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
+                                Integer.toString(multiRiderSchlange.getWartelaenge()),
+                                Integer.toString(singleRiderSchlange.getWartelaenge()),
+                                Long.toString(sim1.getSimZeit())});
 
 
 
-                FUTURE_EVENT_LIST.removeArrival();
-                FUTURE_EVENT_LIST.removeEnty();
-                personList.get(i).setGroupArrivalTime();
-                multiRiderSchlange.addPersons(personList.get(i));
-                t1.sleep(sim1.getSleeptimeArrival()); // syncro
+                        FUTURE_EVENT_LIST.removeArrival();
+                        FUTURE_EVENT_LIST.removeEnty();
+                        personList.get(i).setGroupArrivalTime();
+                        multiRiderSchlange.addPersons(personList.get(i));
+                        t1.sleep(sim1.getSleeptimeArrival()); // syncro
 
             }
 
@@ -219,9 +219,6 @@ public class Rollercoaster {
 
 
                 }
-
-                sim1.setAnkunftszeit(0);
-
             }
         });
 
@@ -239,15 +236,6 @@ public class Rollercoaster {
 
         t1.start();
         t2.start();
-
-        if (sim1.getSimZeit() > 100000){
-            try {
-                t1.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
 
 
     }
