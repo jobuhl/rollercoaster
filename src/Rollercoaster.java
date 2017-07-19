@@ -34,12 +34,15 @@ public class Rollercoaster {
         return gui;
     }
 
+
+
+
     public static void main(String[] args) {
 
         gui = new GUI();
         gui.setVisible(true);
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 10; i++) {
             //          int ran = 3; // FOR SAME VALUE
             int ran = r.nextInt(max - min) + min;
             personList.add(new PersonenGruppe(ran));
@@ -53,11 +56,12 @@ public class Rollercoaster {
 
         }
 
+        //füll Logik
+
+
         t1 = new Thread(new Runnable() {
 
-
-            //Ausgabe für erstes Element
-            private void output1(int i) throws InterruptedException {
+            private void ankommen1(int i) throws InterruptedException {
 
                 sim1.setAnkunftszeit(sim1.getAnkunftszeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
                 sim1.setEinsteigezeit(sim1.getAnkunftszeit() + FUTURE_EVENT_LIST.getEntrytime().get(0));
@@ -77,17 +81,17 @@ public class Rollercoaster {
                         Long.toString(sim1.getSimZeit())});
 
 
-
                 FUTURE_EVENT_LIST.removeArrival();
                 FUTURE_EVENT_LIST.removeEnty();
                 personList.get(i).setGroupArrivalTime();
                 multiRiderSchlange.addPersons(personList.get(i));
-                t1.sleep(sim1.getSleeptimeArrival()); // syncro
+                sim1.setSimZeit(sim1.getAnkunftszeit());
 
             }
 
-            //Ausgabe für i++ Elemente <100
-            private void output2(int i) throws InterruptedException {
+            private void ankommen2(int i){
+
+
                 int aktivWagon = 0;
 
                 if (zug.getAktiv() > zug.getWaggons() - 1) {
@@ -98,17 +102,14 @@ public class Rollercoaster {
                 }
 
 
-                    sim1.setSimZeit(sim1.getAnkunftszeit());
-
-
-                    sim1.setAnkunftszeit(sim1.getSimZeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
-                    sim1.setSleeptimeArrival(FUTURE_EVENT_LIST.getArrivaltime().get(0));
+                sim1.setSimZeit(sim1.getAnkunftszeit());
+                sim1.setAnkunftszeit(sim1.getSimZeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
+                sim1.setSleeptimeArrival(FUTURE_EVENT_LIST.getArrivaltime().get(0));
                 gui.getFirst().addColumn(new String[]{
                         Long.toString(sim1.getAnkunftszeit()),
                         Long.toString(sim1.getEinsteigezeit()),
                         Long.toString(sim1.getFahrtzeit()),
-                        //Long.toString(sim1.getFahrtzeit()),
-                        "Test me if ",
+                        Long.toString(sim1.getFahrtzeit()),
                         zug.getStatus(),
                         Integer.toString(zug.getAktiv()),
                         Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
@@ -117,69 +118,8 @@ public class Rollercoaster {
                         Long.toString(sim1.getSimZeit())});
 
 
-                    sim1.setSimZeit(sim1.getAnkunftszeit());
+                sim1.setSimZeit(sim1.getAnkunftszeit());
 
-                FUTURE_EVENT_LIST.removeArrival();
-                personList.get(i).setGroupArrivalTime();
-                multiRiderSchlange.addPersons(personList.get(i));
-                Thread.sleep(sim1.getSleeptimeArrival()); // syncro
-            }
-
-            //Ausgabe für i++ Elemente >100
-            private void output3(int i) throws InterruptedException {
-                if (SimulationsZeit.getAnkunftszeit() <= SimulationsZeit.getEinsteigezeit()) {
-                    SimulationsZeit.setAnkunftszeit(SimulationsZeit.getAnkunftszeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
-
-                } else {
-                    SimulationsZeit.setEinsteigezeit(SimulationsZeit.getAnkunftszeit() + FUTURE_EVENT_LIST.getEntrytime().get(0));
-                }
-                Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
-                gui.getFirst().addColumn(new String[]{
-                        Integer.toString(FUTURE_EVENT_LIST.getArrivaltime().get(0)),
-                        "-",
-                        "-",
-                        "-",
-                        zug.getStatus(),
-                        "-",
-                        "-",
-                        "-",
-                        "-",
-//                                        Integer.toString(zug.getAktiv()),
-//                                        Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
-//                                        Integer.toString(multiRiderSchlange.getWartelaenge()),
-//                                        Integer.toString(singleRiderSchlange.getWartelaenge()),
-                        Long.toString(sim1.getSimZeit())});
-
-
-                FUTURE_EVENT_LIST.removeArrival();
-                personList.get(i).setGroupArrivalTime();
-                singleRiderSchlange.addPersons(personList.get(i));
-            }
-
-            //Ausgabe für i++ Elemente >100
-            private void output4(int i) throws InterruptedException {
-                if (SimulationsZeit.getAnkunftszeit() <= SimulationsZeit.getEinsteigezeit()) {
-                    SimulationsZeit.setAnkunftszeit(SimulationsZeit.getAnkunftszeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
-
-                } else {
-                    SimulationsZeit.setEinsteigezeit(SimulationsZeit.getAnkunftszeit() + FUTURE_EVENT_LIST.getEntrytime().get(0));
-                }
-                Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
-                gui.getFirst().addColumn(new String[]{
-                        Long.toString(SimulationsZeit.getAnkunftszeit()),
-                        Long.toString(SimulationsZeit.getEinsteigezeit()),
-                        "-",
-                        "-",
-                        zug.getStatus(),
-                        "-",
-                        "-",
-                        "-",
-                        "-",
-//                                        Integer.toString(zug.getAktiv()),
-//                                        Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
-//                                        Integer.toString(multiRiderSchlange.getWartelaenge()),
-//                                        Integer.toString(singleRiderSchlange.getWartelaenge()),
-                        Long.toString(sim1.getSimZeit())});
                 FUTURE_EVENT_LIST.removeArrival();
                 personList.get(i).setGroupArrivalTime();
                 multiRiderSchlange.addPersons(personList.get(i));
@@ -187,69 +127,58 @@ public class Rollercoaster {
 
             @Override
             public void run() {
+                try {
 
-                for (int i = 0; i < personList.size(); i++) {
+                int i = 0;
 
+                while (personList.size() != 0) {
 
-                    try {
-                        //unter hundert
-                        if (multiRiderSchlange.getWartelaenge() <= 100) {
-                            if (i == 0) {
-
-
-
-                                output1(i);
-
-
-                            } else {
-                                output2(i);
-                            }
-
-                        // über 100
-                        } else {
-                            if (personList.get(i).getGroupSize() == 1) {
-                                output3(i);
-
-                            } else {
-                                output4(i);
-                            }
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    if ( i == 0){
+                            ankommen1(i);
+                            i++;
                     }
 
 
+                    //Ankunftsereingis
+                    if (sim1.getAnkunftszeit() <= sim1.getEinsteigezeit()){
+                        ankommen2(i);
+                        i++;
+                    }
+
+                    //Einteilungsereignis
+                    if (sim1.getAnkunftszeit() > sim1.getEinsteigezeit()){
+                        einteiler1.fillTrain();
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 }
 
-                sim1.setAnkunftszeit(0);
-
-            }
-        });
-
-        t2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                while (true) {
-
-                    einteiler1.fillTrain();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });
-
 
         t1.start();
-        t2.start();
-
-        if (sim1.getSimZeit() > 100000){
-            try {
-                t1.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-
     }
 }
