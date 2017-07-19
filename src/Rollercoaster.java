@@ -8,6 +8,8 @@ import java.util.Random;
 public class Rollercoaster {
 
     private static GUI gui;
+    private static Thread t1;
+    private static Thread t2;
 
     /* Für die Random Gruppengröße Erzeugung */
     public static Random r = new Random();
@@ -51,20 +53,22 @@ public class Rollercoaster {
 
         }
 
-        Thread t1 = new Thread(new Runnable() {
+        t1 = new Thread(new Runnable() {
+
 
             //Ausgabe für erstes Element
             private void output1(int i) throws InterruptedException {
-                SimulationsZeit.setAnkunftszeit(SimulationsZeit.getAnkunftszeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
-                SimulationsZeit.setEinsteigezeit(SimulationsZeit.getAnkunftszeit() + FUTURE_EVENT_LIST.getEntrytime().get(0));
-                SimulationsZeit.setSleeptime(FUTURE_EVENT_LIST.getEntrytime().get(0));
-                Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
+
+                sim1.setAnkunftszeit(sim1.getAnkunftszeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
+                sim1.setEinsteigezeit(sim1.getAnkunftszeit() + FUTURE_EVENT_LIST.getEntrytime().get(0));
+                sim1.setSleeptimeArrival(FUTURE_EVENT_LIST.getArrivaltime().get(0));
+                sim1.setSleeptimeEntry(FUTURE_EVENT_LIST.getEntrytime().get(0) + FUTURE_EVENT_LIST.getArrivaltime().get(0));
 
                 gui.getFirst().addColumn(new String[]{
-                        Long.toString(SimulationsZeit.getAnkunftszeit()),
-                        Long.toString(SimulationsZeit.getEinsteigezeit()),
+                        Long.toString(sim1.getAnkunftszeit()),
+                        Long.toString(sim1.getEinsteigezeit()),
                         Long.toString(sim1.getFahrtzeit()),
-                        Integer.toString(FUTURE_EVENT_LIST.getEntrytime().get(0)),
+                        Long.toString(sim1.getFahrtzeit()),
                         zug.getStatus(),
                         Integer.toString(zug.getAktiv()),
                         Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
@@ -72,10 +76,13 @@ public class Rollercoaster {
                         Integer.toString(singleRiderSchlange.getWartelaenge()),
                         Long.toString(sim1.getSimZeit())});
 
-                SimulationsZeit.setSimZeit(FUTURE_EVENT_LIST.getArrivaltime().get(0));
+
+
                 FUTURE_EVENT_LIST.removeArrival();
+                FUTURE_EVENT_LIST.removeEnty();
                 personList.get(i).setGroupArrivalTime();
                 multiRiderSchlange.addPersons(personList.get(i));
+                t1.sleep(sim1.getSleeptimeArrival()); // syncro
 
             }
 
@@ -90,44 +97,31 @@ public class Rollercoaster {
 
                 }
 
-                if (SimulationsZeit.getAnkunftszeit() <= SimulationsZeit.getEinsteigezeit()) {
-                    SimulationsZeit.setAnkunftszeit(SimulationsZeit.getAnkunftszeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
 
-                } else {
-                    SimulationsZeit.setEinsteigezeit(SimulationsZeit.getAnkunftszeit() + FUTURE_EVENT_LIST.getEntrytime().get(0));
-                    SimulationsZeit.setSleeptime(FUTURE_EVENT_LIST.getEntrytime().get(0));
-                }
+                    sim1.setSimZeit(sim1.getAnkunftszeit());
 
-                Thread.sleep((FUTURE_EVENT_LIST.getArrivaltime().get(0)));
+
+                    sim1.setAnkunftszeit(sim1.getSimZeit() + FUTURE_EVENT_LIST.getArrivaltime().get(0));
+                    sim1.setSleeptimeArrival(FUTURE_EVENT_LIST.getArrivaltime().get(0));
                 gui.getFirst().addColumn(new String[]{
-                        Long.toString(SimulationsZeit.getAnkunftszeit()),
-                        Long.toString(SimulationsZeit.getEinsteigezeit()),
+                        Long.toString(sim1.getAnkunftszeit()),
+                        Long.toString(sim1.getEinsteigezeit()),
                         Long.toString(sim1.getFahrtzeit()),
-                        Long.toString(sim1.getAussteigezeit()),
+                        Long.toString(sim1.getFahrtzeit()),
                         zug.getStatus(),
-                        Integer.toString(FUTURE_EVENT_LIST.getArrivaltime().get(0)),
-                        "-",
-                        "-",
-                        "-",
-//                                        Integer.toString(zug.getAktiv()),
-//                                        Integer.toString(zug.getTakenSeats()[aktivWagon]),
-//                                        Integer.toString(multiRiderSchlange.getWartelaenge()),
-//                                        Integer.toString(singleRiderSchlange.getWartelaenge()),
+                        Integer.toString(zug.getAktiv()),
+                        Integer.toString(zug.getTakenSeats()[zug.getAktiv()]),
+                        Integer.toString(multiRiderSchlange.getWartelaenge()),
+                        Integer.toString(singleRiderSchlange.getWartelaenge()),
                         Long.toString(sim1.getSimZeit())});
 
 
-                // SimulationsZeit.setSimZeit(sim1.getSimZeit()+ FUTURE_EVENT_LIST.getArrivaltime().get(0));
-
-                if (SimulationsZeit.getAnkunftszeit() <= SimulationsZeit.getEinsteigezeit()) {
-                    SimulationsZeit.setSimZeit(SimulationsZeit.getAnkunftszeit());
-
-                } else {
-                    SimulationsZeit.setSimZeit(SimulationsZeit.getEinsteigezeit());
-                }
+                    sim1.setSimZeit(sim1.getAnkunftszeit());
 
                 FUTURE_EVENT_LIST.removeArrival();
                 personList.get(i).setGroupArrivalTime();
                 multiRiderSchlange.addPersons(personList.get(i));
+                Thread.sleep(sim1.getSleeptimeArrival()); // syncro
             }
 
             //Ausgabe für i++ Elemente >100
@@ -192,50 +186,43 @@ public class Rollercoaster {
 
             @Override
             public void run() {
+
                 for (int i = 0; i < personList.size(); i++) {
-                    if (multiRiderSchlange.getWartelaenge() <= 100) {
-                        if (i == 0) {
 
-                            try {
+
+                    try {
+                        //unter hundert
+                        if (multiRiderSchlange.getWartelaenge() <= 100) {
+                            if (i == 0) {
+
+
+
                                 output1(i);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
 
-                        } else {
 
-                            try {
+                            } else {
                                 output2(i);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
                             }
 
-                        }
-
-                    } else {
-                        if (personList.get(i).getGroupSize() == 1) {
-
-                            try {
+                        // über 100
+                        } else {
+                            if (personList.get(i).getGroupSize() == 1) {
                                 output3(i);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }else{
 
-                                try {
-                                    output4(i);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                            } else {
+                                output4(i);
                             }
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
+
+
                 }
-
-
             }
         });
 
-        Thread t2 = new Thread(new Runnable() {
+        t2 = new Thread(new Runnable() {
             @Override
             public void run() {
 
@@ -245,7 +232,6 @@ public class Rollercoaster {
                 }
             }
         });
-
 
 
         t1.start();

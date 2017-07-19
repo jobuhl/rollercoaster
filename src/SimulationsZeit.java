@@ -8,55 +8,64 @@ public class SimulationsZeit {
     private static long einsteigezeit = 0;
     private static long fahrtzeit = 0;
     private static long aussteigezeit = 0;
-    private static long sleeptime = 0;
+    private static long sleeptimeArrival = 0;
+    private static long sleeptimeEntry = 0;
 
     private static AtomicLong simZeit = new AtomicLong(0);
 
-    public static long getSimZeit() {
+    public synchronized static long getSimZeit() {
         return simZeit.get();
     }
 
-    public static void setSimZeit(long simZeit) {
+    public synchronized static void setSimZeit(long simZeit) {
         SimulationsZeit.simZeit.set(simZeit);
     }
 
-    public static long getAnkunftszeit() {
+    public synchronized static long getAnkunftszeit() {
         return ankunftszeit;
     }
 
-    public static void setAnkunftszeit(long ankunftszeit) {
+    public synchronized static void setAnkunftszeit(long ankunftszeit) {
         SimulationsZeit.ankunftszeit = ankunftszeit;
     }
 
-    public static long getEinsteigezeit() {
+    public synchronized static long getEinsteigezeit() {
         return einsteigezeit;
     }
 
-    public static void setEinsteigezeit(long einsteigezeit) {
+    public synchronized static void setEinsteigezeit(long einsteigezeit) {
         SimulationsZeit.einsteigezeit = einsteigezeit;
     }
 
-    public static long getFahrtzeit() {
+    public synchronized static long getFahrtzeit() {
         return fahrtzeit;
     }
 
-    public static void setFahrtzeit(long fahrtzeit) {
+    public synchronized static void setFahrtzeit(long fahrtzeit) {
         SimulationsZeit.fahrtzeit = fahrtzeit;
     }
 
-    public static long getAussteigezeit() {
+    public synchronized static long getAussteigezeit() {
         return aussteigezeit;
     }
 
-    public static void setAussteigezeit(long aussteigezeit) {
+    public synchronized static void setAussteigezeit(long aussteigezeit) {
         SimulationsZeit.aussteigezeit = aussteigezeit;
     }
 
-    public static long getSleeptime() {
-        return sleeptime;
+    public static long getSleeptimeArrival() {
+        return sleeptimeArrival;
     }
 
-    public static void setSleeptime(long sleeptime) {
-        SimulationsZeit.sleeptime = sleeptime;
+    public static void setSleeptimeArrival(long sleeptimeArrival) {
+        SimulationsZeit.sleeptimeArrival = sleeptimeArrival;
+    }
+
+    public static long getSleeptimeEntry() {
+        return sleeptimeEntry;
+    }
+
+    public static void setSleeptimeEntry(long sleeptimeEntry) {
+        SimulationsZeit.sleeptimeEntry = sleeptimeEntry;
     }
 }
