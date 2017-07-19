@@ -268,24 +268,9 @@ public class Einteiler {
             Thread.sleep(5000);
             simulationsZeit.setEinsteigezeit(simulationsZeit.getEinsteigezeit()+5000);
             simulationsZeit.setFahrtzeit(simulationsZeit.getSimZeit() + 5000);
-            Rollercoaster.getGui().getFirst().addColumn(new String []{
-                    Long.toString(SimulationsZeit.getAnkunftszeit()),
-                    Long.toString(SimulationsZeit.getEinsteigezeit()),
-                    Long.toString(simulationsZeit.getFahrtzeit()),
-                    "-",
-                    zug.getStatus(),
-                    Integer.toString(zug.getAktiv()),
-                    Integer.toString(zug.getTakenSeats()[aktivWagon]),
-                    Integer.toString(multiRiderSchlange.getWartelaenge()),
-                    Integer.toString(singleRiderSchlange.getWartelaenge()),
-                    Long.toString(simulationsZeit.getSimZeit())});
 
 
-
-
-
-
-
+            output();
             zug.setAktivToZero();
             zug.wagonsleeren(); // neue Methode um Wagons-Array mit 3er zu befüllen
 
@@ -305,23 +290,11 @@ public class Einteiler {
 
 
             simulationsZeit.setEinsteigezeit(simulationsZeit.getEinsteigezeit()+futureEventList.getExittime().get(0));
-
-           // simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + futureEventList.getExittime().get(0));
+            simulationsZeit.setSimZeit( simulationsZeit.getSimZeit() + futureEventList.getExittime().get(0));
             futureEventList.removeExit();
             zug.setStatusGreen();
 
-            Rollercoaster.getGui().getFirst().addColumn(new String []{
-                    Long.toString(SimulationsZeit.getAnkunftszeit()),
-                    Long.toString(SimulationsZeit.getEinsteigezeit()),
-                    Long.toString(simulationsZeit.getFahrtzeit()),
-                    "-",
-                    zug.getStatus(),
-                    Integer.toString(zug.getAktiv()),
-                    Integer.toString(zug.getTakenSeats()[aktivWagon]),
-                    Integer.toString(multiRiderSchlange.getWartelaenge()),
-                    Integer.toString(singleRiderSchlange.getWartelaenge()),
-                    Long.toString(simulationsZeit.getSimZeit())});
-
+            output();
 
 
 
@@ -348,25 +321,10 @@ public class Einteiler {
             System.out.println(futureEventList.getEntrytime().get(0));
             Thread.sleep(futureEventList.getEntrytime().get(0));
 
-            Rollercoaster.getGui().getFirst().addColumn(new String []{
-                    Long.toString(SimulationsZeit.getAnkunftszeit()),
-                    Long.toString(SimulationsZeit.getEinsteigezeit()),
-                    Long.toString(simulationsZeit.getFahrtzeit()),
-                    //"-",
-                    Integer.toString(futureEventList.getEntrytime().get(0)),
-                    //zug.getStatus(),
-                    Integer.toString(aktivWagon),
-                    Integer.toString(zug.getTakenSeats()[aktivWagon]),
-                    Integer.toString(multiRiderSchlange.getWartelaenge()),
-                    Integer.toString(singleRiderSchlange.getWartelaenge()),
+            output();
 
-
-                    Long.toString(simulationsZeit.getSimZeit())});
-
-
-
-                simulationsZeit.setSimZeit(SimulationsZeit.getEinsteigezeit());
-                simulationsZeit.setEinsteigezeit(simulationsZeit.getEinsteigezeit()+futureEventList.getEntrytime().get(0));
+            simulationsZeit.setSimZeit(SimulationsZeit.getEinsteigezeit());
+            simulationsZeit.setEinsteigezeit(simulationsZeit.getEinsteigezeit()+futureEventList.getEntrytime().get(0));
 
             futureEventList.removeEnty();
             fillTrain();
