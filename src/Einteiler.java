@@ -2,7 +2,7 @@
  * sCreated by Jojo on 01.05.17.
  */
 public class Einteiler {
-
+    private static boolean check = true;
     private SingleRiderSchlange singleRiderSchlange;
     private MultiRiderSchlange multiRiderSchlange;
     private Zug zug;
@@ -25,6 +25,14 @@ public class Einteiler {
 
         if (multiRiderSchlange.isEmpty() == false && !(zug.getStatus().equals("red"))) {
 
+            if (check == true){
+                try {
+                    Thread.sleep(sim1.getSleeptimeEntry());
+                    check = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             if (zug.getAktiv() <= zug.getWaggons()-1) { //aktiv kann bis auf 10 steigen und wenn takenSeats[10] dann Exception....
 
                 if (zug.getStatus().equals("green")) {
@@ -74,7 +82,6 @@ public class Einteiler {
                     }
                 }else{
 
-                    System.out.println("test");
                 }
 
             }
@@ -181,6 +188,7 @@ public class Einteiler {
     private void newDeploy() {
         zug.setFreeSeats(true);
         zug.setAktiv();
+        output();
     }
 
     private void restGroupDeploy() {
@@ -237,10 +245,10 @@ public class Einteiler {
             }
 
         Rollercoaster.getGui().getFirst().addColumn(new String []{
-                Long.toString(SimulationsZeit.getAnkunftszeit()),
-                Long.toString(SimulationsZeit.getEinsteigezeit()),
+                Long.toString(sim1.getAnkunftszeit()),
+                Long.toString(sim1.getEinsteigezeit()),
                 Long.toString(sim1.getFahrtzeit()),
-                "-",
+                Long.toString(sim1.getAussteigezeit()),
                 zug.getStatus(),
                 Integer.toString(zug.getAktiv()),
                 Integer.toString(zug.getTakenSeats()[aktivWagon]),
@@ -252,32 +260,40 @@ public class Einteiler {
     private void zugfahrt() {
 
         zug.setStatusRed();
+        try {
 
-
-            sim1.setEinsteigezeit(sim1.getEinsteigezeit()+5000);
+            //Zug fährt zu
+            sim1.setEinsteigezeit(0);
             sim1.setFahrtzeit(sim1.getSimZeit() + 5000);
-
-
             output();
+            Thread.sleep(5000);
 
+            //Zug ist angekommen, Gäste steigen aus
             zug.setAktivToZero();
             zug.wagonsleeren(); // neue Methode um Wagons-Array mit 3er zu befüllen
-
             sim1.setSimZeit(sim1.getFahrtzeit());
-              output();
+            sim1.setAussteigezeit(sim1.getSimZeit()+futureEventList.getExittime().get(0));
+            sim1.setFahrtzeit(0);
+            output();
+            Thread.sleep(futureEventList.getExittime().get(0));
 
-
-            sim1.setEinsteigezeit(sim1.getEinsteigezeit()+futureEventList.getExittime().get(0));
-
-           // sim1.setSimZeit( sim1.getSimZeit() + futureEventList.getExittime().get(0));
+            //Alle sind ausgestiegen
             futureEventList.removeExit();
             zug.setStatusGreen();
+            sim1.setSimZeit(sim1.getAussteigezeit());
+            sim1.setEinsteigezeit(sim1.getSimZeit()+sim1.getSleeptimeEntry());
+            sim1.setAussteigezeit(0);
 
-           output();
+            output();
+            Thread.sleep(futureEventList.getExittime().get(0));
 
 
 
 
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         zug.setStatusGreen();
 
@@ -286,44 +302,35 @@ public class Einteiler {
 
 
     private void sleeping(){
-
+        try {
 
             int aktivWagon = 0;
-            if (zug.getAktiv() > zug.getWaggons() - 1) {
-                aktivWagon = zug.getWaggons() - 1;
-            } else {
+            if (zug.getAktiv() > zug.getWaggons()-1){
+                aktivWagon = zug.getWaggons()-1;
+            }else{
                 aktivWagon = zug.getAktiv();
             }
 
+            System.out.println(sim1.getSleeptimeEntry());
 
 
             sim1.setSimZeit(sim1.getEinsteigezeit());
-        sim1.setEinsteigezeit(sim1.getEinsteigezeit() + futureEventList.getEntrytime().get(0));
-
-
-            Rollercoaster.getGui().getFirst().addColumn(new String[]{
-                    Long.toString(SimulationsZeit.getAnkunftszeit()),
-                    Long.toString(SimulationsZeit.getEinsteigezeit()),
-                    Long.toString(sim1.getFahrtzeit()),
-                    Long.toString(sim1.getAussteigezeit()),
-                    zug.getStatus(),
-                    Integer.toString(aktivWagon),
-                    Integer.toString(zug.getTakenSeats()[aktivWagon]),
-                    Integer.toString(multiRiderSchlange.getWartelaenge()),
-                    Integer.toString(singleRiderSchlange.getWartelaenge()),
-
-
-                    Long.toString(sim1.getSimZeit())});
+            //System.out.println(futureEventList.getEntrytime().get(0));
 
 
             sim1.setSimZeit(SimulationsZeit.getEinsteigezeit());
+            sim1.setEinsteigezeit(sim1.getEinsteigezeit()+futureEventList.getEntrytime().get(0));
+           output();
 
-            sim1.setSleeptimeEntry(futureEventList.getEntrytime().get(0));
 
+
+                sim1.setSleeptimeEntry(futureEventList.getEntrytime().get(0));
+            Thread.sleep(sim1.getSleeptimeEntry());
             futureEventList.removeEnty();
             fillTrain();
-
-
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
