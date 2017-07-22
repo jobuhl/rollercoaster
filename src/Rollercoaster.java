@@ -11,6 +11,8 @@ public class Rollercoaster {
     private static GUI gui;
     private static Thread t1;
     private static Thread t2;
+    private static Thread t3;
+    private static Thread t4;
 
     /* Für die Random Gruppengröße Erzeugung */
     public static Random r = new Random();
@@ -160,7 +162,6 @@ public class Rollercoaster {
                         e.printStackTrace();
                     }
 
-
                 }
 
                 sim1.setAnkunftszeit(0);
@@ -179,10 +180,63 @@ public class Rollercoaster {
             }
         });
 
+        t3 = new Thread(new Runnable() {
+            private int counter = 0;
+            private double time = 0;
+            private double avg = 0;
+            @Override
+            public void run() {
+                while (true){
+
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    if (counter < stat.getPersGroupStat().size()) {
+
+                        avg += ((double)stat.getPersGroupStat().get(counter).getGroupWaitingTime());
+                        time = avg/(double)(stat.getPersGroupStat().size());
+
+                        counter++;
+
+
+
+                    }
+
+                    System.out.println(time);
+
+
+
+                }
+            }
+        });
+
+
+        t4 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                while (true) {
+                    System.out.println(sim1.getSimZeit());
+                    if (sim1.getSimZeit() >= (long) 10000) {
+                        t1.stop();
+                        t2.stop();
+                        t3.stop();
+                        t4.stop();
+                    }
+
+                }
+            }
+        });
+
 
         t1.start();
         t2.start();
-
+        t3.start();
+        t4.start();
 
     }
 }

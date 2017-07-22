@@ -32,6 +32,9 @@ public class Table extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+
+
+
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setAutoscrolls(true);
 

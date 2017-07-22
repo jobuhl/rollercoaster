@@ -32,7 +32,9 @@ public class PersonenGruppe {
     }
 
     public void setGroupWaitingTime() {
-        this.groupWaitingTime = System.currentTimeMillis()-this.groupWaitingTime;
+
+        this.groupWaitingTime = System.currentTimeMillis()-this.groupArrivalTime;
+        //System.out.println(this.groupWaitingTime);
     }
 
 
