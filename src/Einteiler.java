@@ -26,6 +26,15 @@ public class Einteiler {
 
         if (multiRiderSchlange.isEmpty() == false && !(zug.getStatus().equals("red"))) {
 
+            if (check == true) {
+                try {
+                    Thread.sleep(sim1.getSleeptimeEntry());
+                    check = false;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             if (zug.getAktiv() <= zug.getWaggons()-1) { //aktiv kann bis auf 10 steigen und wenn takenSeats[10] dann Exception....
 
                 if (zug.getStatus().equals("green")) {
