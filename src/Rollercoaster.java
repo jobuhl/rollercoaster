@@ -7,6 +7,9 @@ import java.util.Random;
 
 public class Rollercoaster {
 
+    // laufzeitbeschärnkung
+    private static long x = 80000;
+
 
     private static GUI gui;
     private static Thread t1;
@@ -20,6 +23,8 @@ public class Rollercoaster {
     public static final int max_single = 1;
     public static final int max = 6;
     public static final int min_multi = 2;
+    public static double time = 0;
+
 
     static final Statistik stat = new Statistik();
 
@@ -29,9 +34,10 @@ public class Rollercoaster {
     public static final FutureEventList FUTURE_EVENT_LIST = new FutureEventList();
 
     public static final Zug zug = new Zug(4, 3, 300);
+    public static final int kapazitaet = zug.getWaggons()*zug.getAnzahl_sitze();
     public static final SimulationsZeit sim1 = new SimulationsZeit();
 
-    public static final Einteiler einteiler1 = new Einteiler(singleRiderSchlange, multiRiderSchlange, zug, sim1, FUTURE_EVENT_LIST);
+    public static final Einteiler einteiler1 = new Einteiler(singleRiderSchlange, multiRiderSchlange, zug, sim1, FUTURE_EVENT_LIST, 100);
 
     public static GUI getGui() {
         return gui;
@@ -40,10 +46,11 @@ public class Rollercoaster {
     public static void main(String[] args) {
 
         gui = new GUI();
+
         gui.setVisible(true);
 
-        for (int i = 0; i < 200; i++) {
-            //          int ran = 3; // FOR SAME VALUE
+        for (int i = 0; i < 80; i++) {
+                     // int ran = 3; // FOR SAME VALUE
             int ran = r.nextInt(max - min) + min;
             personList.add(new PersonenGruppe(ran));
             FUTURE_EVENT_LIST.add();
@@ -182,7 +189,7 @@ public class Rollercoaster {
 
         t3 = new Thread(new Runnable() {
             private int counter = 0;
-            private double time = 0;
+
             private double avg = 0;
             @Override
             public void run() {
@@ -206,7 +213,7 @@ public class Rollercoaster {
 
                     }
 
-                    System.out.println(time);
+                    //System.out.println(time);
 
 
 
@@ -220,23 +227,51 @@ public class Rollercoaster {
             public void run() {
 
                 while (true) {
-                    System.out.println(sim1.getSimZeit());
-                    if (sim1.getSimZeit() >= (long) 100000) {
+                    //System.out.println(sim1.getSimZeit());
+                    if (sim1.getSimZeit() >= (long) x) {
+
+                        System.out.println("FERTIG");
+                        gui.getFirst().addColumn(new String[]{
+                                Long.toString(0),
+                                Long.toString(0),
+                                Long.toString(0),
+                                Long.toString(0),
+                                "-",
+                                Integer.toString(0),
+                                Integer.toString(0),
+                                Integer.toString(0),
+                                Integer.toString(0),
+                                Long.toString(x)});
+
+
+                        double auslastungsqoute = (double)zug.getFahrgaeste()/(double)(kapazitaet*zug.getZugfahrt());
+                        gui.getThird().addColumn(new String[]{
+                                Integer.toString(zug.getFahrgaeste()),
+                                Integer.toString(zug.getZugfahrt()),
+                                Integer.toString(kapazitaet*zug.getZugfahrt()),
+                                Double.toString(auslastungsqoute),
+                                Double.toString(time)
+                        });
+
                         t1.stop();
                         t2.stop();
                         t3.stop();
                         t4.stop();
+
                     }
 
                 }
             }
         });
 
-
         t1.start();
         t2.start();
         t3.start();
         t4.start();
+
+
+
+
 
     }
 }

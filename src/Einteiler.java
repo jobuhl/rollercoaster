@@ -6,22 +6,97 @@ public class Einteiler {
     private SingleRiderSchlange singleRiderSchlange;
     private MultiRiderSchlange multiRiderSchlange;
     private Zug zug;
+    private int schranke;
     private SimulationsZeit sim1;
     private FutureEventList futureEventList;
 
 
     public Einteiler(SingleRiderSchlange singleRiderSchlange, MultiRiderSchlange multiRiderSchlange,
-                     Zug zug, SimulationsZeit sim1, FutureEventList futurEventList) {
+                     Zug zug, SimulationsZeit sim1, FutureEventList futurEventList, int schranke) {
         this.singleRiderSchlange = singleRiderSchlange;
         this.multiRiderSchlange = multiRiderSchlange;
         this.zug = zug;
         this.sim1 = sim1;
         this.futureEventList = futurEventList;
+        this.schranke = schranke;
 
     }
 
-
     public void fillTrain() {
+
+        if (multiRiderSchlange.isEmpty() == false && !(zug.getStatus().equals("red"))) {
+
+            if (zug.getAktiv() <= zug.getWaggons()-1) { //aktiv kann bis auf 10 steigen und wenn takenSeats[10] dann Exception....
+
+                if (zug.getStatus().equals("green")) {
+
+
+                    fillFirstRun();
+                }
+
+                if (zug.getStatus().equals("yellow") && (multiRiderSchlange.getWartelaenge() >= schranke || !(singleRiderSchlange.isEmpty()))
+                        && zug.isFreeSeats() == true && singleRiderSchlange.isEmpty() == false) {
+
+
+                    fillsingle();
+                }
+
+            }else {
+
+                if(singleRiderSchlange.getWartelaenge()>0) {
+                    fillsingle();
+                } else {
+                    zug.setStatusRed();
+                    zugfahrt();
+
+                }
+
+            }
+        } else {
+
+            if (zug.getStatus().equals("red") == true){
+                zugfahrt();
+            }else{
+                int freeSeats = zug.getRestFreeSeats();
+                int seats = zug.getAnzahl_sitze() * zug.getWaggons();
+                if (multiRiderSchlange.isEmpty() == true && freeSeats != seats){
+                    try {
+                        Thread.sleep(6000);
+                        sim1.setSimZeit( sim1.getSimZeit() + 6000);
+                        if (multiRiderSchlange.isEmpty() == true){
+                            zug.setStatusRed();
+                            System.out.println("test2");
+
+                            zugfahrt();
+                        }
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+
+                    System.out.println("test1");
+                }
+                System.out.println("test3");
+            }
+            System.out.println("test4");
+            System.out.println(Long.toString(sim1.getAnkunftszeit()));
+            System.out.println( Long.toString(sim1.getEinsteigezeit()));
+            System.out.println( Long.toString(sim1.getFahrtzeit()));
+            System.out.println(  Long.toString(sim1.getAussteigezeit()));
+            System.out.println(  zug.getStatus());
+            System.out.println(   Integer.toString(zug.getAktiv()));
+            System.out.println(   Integer.toString(zug.getTakenSeats()[zug.getAktiv()]));
+            System.out.println(   Integer.toString(multiRiderSchlange.getWartelaenge()));
+            System.out.println(   Integer.toString(singleRiderSchlange.getWartelaenge()));
+            System.out.println(   Long.toString(sim1.getSimZeit()));
+            System.out.println(   Integer.toString(zug.getFahrgaeste()));
+            System.out.println(  Integer.toString(zug.getZugfahrt()));
+
+        }
+    }
+
+/*    public void fillTrain() {
 
         if (multiRiderSchlange.isEmpty() == false) {
 
@@ -97,7 +172,8 @@ public class Einteiler {
 
             }
         }
-    }
+    }*/
+
 
     private void fillFirstRun() {
 
@@ -143,18 +219,34 @@ public class Einteiler {
                                     - 1) == 0 || multiRiderSchlange.getFirst().getGroupSize() % (zug.getTakenSeats()[zug.getAktiv()] - 1) == 2) {
                                 groupFitafterDeploy();
                             } else {
+
                                 System.out.println("Hier könnte der Fehler sein 1");
+                                System.out.println("gruppengröße = " +multiRiderSchlange.getFirst().getGroupSize());
+
+                                System.out.println(Long.toString(sim1.getAnkunftszeit()));
+                                System.out.println( Long.toString(sim1.getEinsteigezeit()));
+                                System.out.println( Long.toString(sim1.getFahrtzeit()));
+                                System.out.println(  Long.toString(sim1.getAussteigezeit()));
+                                System.out.println(  zug.getStatus());
+                                System.out.println(   Integer.toString(zug.getAktiv()));
+                                System.out.println(   Integer.toString(zug.getTakenSeats()[zug.getAktiv()]));
+                                System.out.println(   Integer.toString(multiRiderSchlange.getWartelaenge()));
+                                System.out.println(   Integer.toString(singleRiderSchlange.getWartelaenge()));
+                                System.out.println(   Long.toString(sim1.getSimZeit()));
+                                System.out.println(   Integer.toString(zug.getFahrgaeste()));
+                                System.out.println(  Integer.toString(zug.getZugfahrt()));
                             }
 
                         }
 
 
                     }
+
                 }
 
             }
         } else {
-            System.out.println("Hier könnte der Fehler sein 2");
+            System.out.println("Hier könnte der Fehler sein 5");
         }
     }
 
@@ -184,7 +276,7 @@ public class Einteiler {
     }
 
     private void trainReady() {
-        if (multiRiderSchlange.getWartelaenge() > 100 && !(singleRiderSchlange.isEmpty()) == true) {
+        if (multiRiderSchlange.getWartelaenge() > schranke && !(singleRiderSchlange.isEmpty()) == true) {
             zug.setStatusYellow();
         } else {
             zug.setStatusRed();
@@ -239,6 +331,7 @@ public class Einteiler {
 
         } else {
             zug.setStatusRed();
+
         }
     }
 
@@ -263,7 +356,8 @@ public class Einteiler {
                 Integer.toString(zug.getTakenSeats()[aktivWagon]),
                 Integer.toString(multiRiderSchlange.getWartelaenge()),
                 Integer.toString(singleRiderSchlange.getWartelaenge()),
-                Long.toString(sim1.getSimZeit())});
+                Long.toString(sim1.getSimZeit())
+        });
     }
 
     private void zugfahrt() {
@@ -275,6 +369,15 @@ public class Einteiler {
             sim1.setEinsteigezeit(0);
             sim1.setFahrtzeit(sim1.getSimZeit() + 5000);
             output();
+
+            //Counter für Anzahl Zugfahrt
+            zug.zugfahrt();
+
+            //Beförderte Fahrgäste berechnung
+            zug.fahrgaeste();
+
+
+
             Thread.sleep(5000);
 
             //Zug ist angekommen, Gäste steigen aus

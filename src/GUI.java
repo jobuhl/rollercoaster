@@ -12,7 +12,12 @@ import javax.swing.table.TableColumn;
 
 public class GUI extends javax.swing.JFrame {
 
-    private Table first, second;
+    private Table first;
+    private Table second;
+
+
+
+    private Table third;
 
     /**
      * Creates new form GUI
@@ -20,11 +25,12 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();
 
-        first = new Table(new String[]{"Ankunftszeit Gruppen", "Einstiegszeit","Fahrtzeit","Ausstiegszeit","Zustand Zug", "Aktueller Wagon", "Freie Plätze Wagon", "Länge Warte M", "Länge Warte S","SimZeit"});
+        first = new Table(new String[]{"Ankunftszeit Gruppen", "Einstiegszeit","Fahrtzeit","Ausstiegszeit","Zustand Zug", "Aktueller Wagon", "Freie Plätze Wagon", "Länge Warte M", "Länge Warte S","SimZeit", "Fährgäste", "Zugfahrten"});
         second = new Table(new String[]{"Gruppengröße", "Ankunftzeit","Einteilungszeit","Ausstiegszeit"});
-
+        third = new Table(new String[]{"Beförderte Fahrgäste", "Zugfahrten", "MaxAuslastung", "Auslastungsqoute","Durchschnittliche Wartezeit"});
         p_first.add(first);
         p_second.add(second);
+        p_third.add(third);
 
         revalidate();
         repaint();
@@ -42,17 +48,21 @@ public class GUI extends javax.swing.JFrame {
         p_center = new javax.swing.JPanel();
         p_first = new javax.swing.JPanel();
         p_second = new javax.swing.JPanel();
+        p_third = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        p_center.setLayout(new java.awt.GridLayout(2, 0));
+        p_center.setLayout(new java.awt.GridLayout(3, 0));
 
         p_first.setLayout(new java.awt.BorderLayout());
         p_center.add(p_first);
 
         p_second.setLayout(new java.awt.BorderLayout());
         p_center.add(p_second);
+
+        p_third.setLayout(new java.awt.BorderLayout());
+        p_center.add(p_third);
 
         getContentPane().add(p_center, java.awt.BorderLayout.CENTER);
 
@@ -78,6 +88,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel p_center;
     private javax.swing.JPanel p_first;
     private javax.swing.JPanel p_second;
+    private javax.swing.JPanel p_third;
     // End of variables declaration
 
 
@@ -87,5 +98,9 @@ public class GUI extends javax.swing.JFrame {
 
     public Table getSecond() {
         return second;
+    }
+
+    public Table getThird() {
+        return third;
     }
 }

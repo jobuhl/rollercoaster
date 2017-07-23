@@ -13,6 +13,9 @@ public class Zug {
     //Aktiver Wagon
     private int aktiv = 0;
 
+    private int zugfahrt = 0;
+    private int fahrgaeste;
+
     //Sitzplätze des Zugs
     private int[] takenSeats;
 
@@ -20,6 +23,7 @@ public class Zug {
 
     //fahrt dauer des Zuges
     private int fahrt_dauer; //in sekunden
+
 
     //Warteschlange für den Zug
     private MultiRiderSchlange warteschlange;
@@ -90,6 +94,31 @@ public class Zug {
     //Auflade bereit
     public void setStatusGreen() {
         this.status = "green";
+    }
+
+
+    public void zugfahrt() {
+        zugfahrt++;
+    }
+
+    public void fahrgaeste() {
+
+        int leer = 0;
+
+        for(int i = 0; i < takenSeats.length; i++) {
+            leer += takenSeats[i];
+        }
+
+        fahrgaeste += (anzahl_sitze*waggons)-leer;
+
+    }
+
+    public int getZugfahrt() {
+        return zugfahrt;
+    }
+
+    public int getFahrgaeste() {
+        return fahrgaeste;
     }
 
     //Abfahrbereit
