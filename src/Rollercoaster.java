@@ -221,7 +221,7 @@ public class Rollercoaster {
 
                 while (true) {
                     System.out.println(sim1.getSimZeit());
-                    if (sim1.getSimZeit() >= (long) 10000) {
+                    if (sim1.getSimZeit() >= (long) 100000) {
                         t1.stop();
                         t2.stop();
                         t3.stop();

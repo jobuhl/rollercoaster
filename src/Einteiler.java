@@ -43,6 +43,7 @@ public class Einteiler {
 
                     case "green":
                         fillFirstRun();
+
                         break;
 
                     case "yellow":
