@@ -8,7 +8,7 @@ import java.util.Random;
 public class Rollercoaster {
 
     // laufzeitbeschärnkung
-    private static long x = 80000;
+    private static long x = 20000;
 
 
     private static GUI gui;
@@ -250,7 +250,7 @@ public class Rollercoaster {
                                 Integer.toString(zug.getZugfahrt()),
                                 Integer.toString(kapazitaet*zug.getZugfahrt()),
                                 Double.toString(auslastungsqoute),
-                                Double.toString(time)
+                                Double.toString(Math.round((time/1000)*100)/100)
                         });
 
                         t1.stop();
